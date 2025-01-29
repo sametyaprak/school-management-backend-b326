@@ -1,0 +1,64 @@
+version: '3.7'
+services:
+
+  postgres:
+    container_name: postgres_container_home
+    image: postgres:16.0
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      PGDATA: /data/postgres
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    networks:
+      - my-home-network
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  pgadmin:
+    container_name: pgadmin_container_home
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    networks:
+      - my-home-network
+
+  create-databases:
+    container_name: database_initializer_home
+    image: postgres
+    depends_on:
+      - postgres
+    environment:
+      - PGPASSWORD=changeme
+    command: |
+      sh -c '
+        sleep 3 # Wait for the Postgres container to start, adjust as needed
+        if psql -h postgres -U postgres -lqt | cut -d \| -f 1 | grep -qw "school_management_b326_instructor_db"; then
+          echo "Database school_management_b326_instructor_db already exists."
+        else
+          psql -h postgres -U postgres -c "CREATE DATABASE school_management_b326_instructor_db"
+        fi
+      '
+    networks:
+      - my-home-network
+
+networks:
+  my-home-network:
+
+volumes:
+  postgres:
+  pgadmin:
+    
+    
+# linux -> ubuntu + docker + docker-compose + docker login
