@@ -9,5 +9,6 @@ public class SchoolManagementBackendB326Application {
   public static void main(String[] args) {
     SpringApplication.run(SchoolManagementBackendB326Application.class, args);
   }
+  //test
 
 }
