@@ -10,5 +10,6 @@ public class SchoolManagementBackendB326Application {
     SpringApplication.run(SchoolManagementBackendB326Application.class, args);
   }
   //test
+  //test2
 
 }
