@@ -1,12 +1,12 @@
 package com.techproed.schoolmanagementbackendb326.entity.concretes.business;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.techproed.schoolmanagementbackendb326.entity.concretes.user.User;
-import com.techproed.schoolmanagementbackendb326.entity.enums.Day;
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Set;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,36 +24,34 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LessonProgram {
+public class Meet {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private Day day;
+  private String description;
 
+  @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
+  private LocalDate date;
+
+  @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm",timezone = "US")
   private LocalTime startTime;
 
+  @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm",timezone = "US")
   private LocalTime stopTime;
+
+  @ManyToOne(cascade = CascadeType.PERSIST)
+  private User advisoryTeacher;
 
   @ManyToMany
   @JoinTable(
-      name = "lesson_program_lesson",
-      joinColumns = @JoinColumn(name = "lessonprogram_id"),
-      inverseJoinColumns = @JoinColumn(name = "lesson_id")
+      name = "meet_student_table",
+      joinColumns = @JoinColumn(name = "meet_id"),
+      inverseJoinColumns = @JoinColumn(name = "student_id")
   )
-  private Set<Lesson>lessons;
-
-  @ManyToOne
-  private EducationTerm educationTerm;
-
-  @JsonIgnore
-  @ManyToMany(mappedBy = "lessonProgramList",fetch = FetchType.EAGER)
-  private Set<User>users;
+  private List<User>studentList;
 
 
-  private void removeLessonFromUser(){
-    users.forEach(user -> user.get);
-  }
 
 }
