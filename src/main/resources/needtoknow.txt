@@ -1,0 +1,2 @@
+java and maven configuration settings (inttelij + OS)
+mvn life cycle + plugin/dependency management
