@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import com.sun.tools.javac.jvm.Gen;
 import com.techproed.schoolmanagementbackendb326.entity.concretes.business.LessonProgram;
 import com.techproed.schoolmanagementbackendb326.entity.concretes.business.Meet;
 import com.techproed.schoolmanagementbackendb326.entity.concretes.business.StudentInfo;
@@ -42,21 +41,31 @@ public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   @Column(unique=true)
   private String username;
+
   @Column(unique=true)
   private String ssn;
+
   private String name;
+
   private String surname;
+
   @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
   private LocalDate birthday;
+
   private String birthplace;
+
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String password;
+
   @Column(unique=true)
   private String phoneNumber;
+
   @Column(unique=true)
   private String email;
+
   private Boolean buildIn;
   private String motherName;
   private String fatherName;
@@ -64,6 +73,7 @@ public class User {
   private boolean isActive;
   private Boolean isAdvisor;
   private Long advisorTeacherId;
+
   @Enumerated(EnumType.STRING)
   private Gender gender;
 
