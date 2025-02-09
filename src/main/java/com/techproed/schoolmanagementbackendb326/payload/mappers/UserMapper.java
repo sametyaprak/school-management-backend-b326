@@ -5,6 +5,7 @@ import com.techproed.schoolmanagementbackendb326.entity.enums.RoleType;
 import com.techproed.schoolmanagementbackendb326.exception.ResourceNotFoundException;
 import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
 import com.techproed.schoolmanagementbackendb326.payload.request.user.UserRequest;
+import com.techproed.schoolmanagementbackendb326.payload.response.user.UserResponse;
 import com.techproed.schoolmanagementbackendb326.service.user.UserRoleService;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -62,6 +63,22 @@ public class UserMapper {
           String.format(ErrorMessages.NOT_FOUND_USER_USER_ROLE_MESSAGE, userRole));
     }
     return user;
+  }
+
+  public UserResponse mapUserToUserResponse(User user) {
+    return UserResponse.builder()
+        .id(user.getId())
+        .username(user.getUsername())
+        .name(user.getName())
+        .surname(user.getSurname())
+        .phoneNumber(user.getPhoneNumber())
+        .gender(user.getGender())
+        .birthDay(user.getBirthday())
+        .birthPlace(user.getBirthplace())
+        .ssn(user.getSsn())
+        .email(user.getEmail())
+        .userRole(user.getUserRole().getRoleType().name())
+        .build();
   }
 
 }
