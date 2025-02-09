@@ -17,7 +17,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AbstractUserRequest {
+public abstract class AbstractUserRequest {
 
   @NotNull(message = "Please enter your username")
   @Size(min = 4, max = 16,message = "Your username should be at least 4 chars")
