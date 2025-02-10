@@ -2,6 +2,7 @@ package com.techproed.schoolmanagementbackendb326.controller.user;
 
 
 import com.techproed.schoolmanagementbackendb326.payload.request.user.UserRequest;
+import com.techproed.schoolmanagementbackendb326.payload.response.abstracts.BaseUserResponse;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.payload.response.user.UserResponse;
 import com.techproed.schoolmanagementbackendb326.service.user.UserService;
@@ -9,6 +10,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,5 +31,13 @@ public class UserController {
       @PathVariable String userRole) {
       return ResponseEntity.ok(userService.saveUser(userRequest,userRole));
   }
+
+
+  @GetMapping("/getUserById/{userId}")
+  public ResponseMessage<BaseUserResponse>getUserById(@PathVariable Long userId) {
+    return userService.findUserById(userId);
+  }
+
+
 
 }
