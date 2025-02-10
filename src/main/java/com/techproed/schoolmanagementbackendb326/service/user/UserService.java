@@ -8,7 +8,6 @@ import com.techproed.schoolmanagementbackendb326.payload.response.business.Respo
 import com.techproed.schoolmanagementbackendb326.payload.response.user.UserResponse;
 import com.techproed.schoolmanagementbackendb326.repository.user.UserRepository;
 import com.techproed.schoolmanagementbackendb326.service.validator.UniquePropertyValidator;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
