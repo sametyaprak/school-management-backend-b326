@@ -1,9 +1,7 @@
 package com.techproed.schoolmanagementbackendb326.payload.response.abstracts;
 
-import com.sun.tools.javac.jvm.Gen;
 import com.techproed.schoolmanagementbackendb326.entity.enums.Gender;
 import java.time.LocalDate;
-import jdk.vm.ci.meta.Local;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
