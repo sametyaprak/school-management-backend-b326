@@ -2,17 +2,21 @@ package com.techproed.schoolmanagementbackendb326.controller.user;
 
 
 import com.techproed.schoolmanagementbackendb326.payload.request.user.UserRequest;
+import com.techproed.schoolmanagementbackendb326.payload.request.user.UserRequestWithoutPassword;
 import com.techproed.schoolmanagementbackendb326.payload.response.abstracts.BaseUserResponse;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.payload.response.user.UserResponse;
 import com.techproed.schoolmanagementbackendb326.service.user.UserService;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity.HeadersBuilder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -63,6 +67,14 @@ public class UserController {
       @RequestBody @Valid UserRequest userRequest
       ,@PathVariable Long userId) {
     return userService.updateUserById(userRequest,userId);
+  }
+
+
+  @PatchMapping("/updateLoggedInUser")
+  public ResponseEntity<String>updateLoggedInUser(
+      @RequestBody @Valid UserRequestWithoutPassword userRequestWithoutPassword,
+      HttpServletRequest httpServletRequest){
+    return ResponseEntity.ok(userService.updateLoggedInUser(userRequestWithoutPassword,httpServletRequest));
   }
 
 
