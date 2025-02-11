@@ -3,7 +3,7 @@ services:
 
   postgres:
     container_name: postgres_container_home
-    image: postgres:16.0
+    image: postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
