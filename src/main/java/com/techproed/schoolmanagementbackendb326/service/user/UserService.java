@@ -13,6 +13,7 @@ import com.techproed.schoolmanagementbackendb326.service.helper.PageableHelper;
 import com.techproed.schoolmanagementbackendb326.service.validator.UniquePropertyValidator;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -74,5 +75,15 @@ public class UserService {
     Pageable pageable = pageableHelper.getPageable(page, size, sort, type);
     return userRepository.findUserByUserRoleQuery(userRole,pageable)
           .map(userMapper::mapUserToUserResponse);
+  }
+
+  public ResponseMessage<UserResponse> updateUserById(UserRequest userRequest, Long userId) {
+      //validate if user exist
+    User userFromDb = methodHelper.isUserExist(userId);
+    //build in users can not be updated
+    methodHelper.checkBuildIn(userFromDb);
+    //validate unique properties
+
+
   }
 }
