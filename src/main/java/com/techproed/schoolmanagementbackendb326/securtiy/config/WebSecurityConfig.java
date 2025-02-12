@@ -32,6 +32,7 @@ public class WebSecurityConfig {
   //diger pakette olusturdugumuz security exception handler
   private final AuthEntryPointJwt authEntryPointJwt;
 
+  @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     //CORS cross*origin resource sharing
     http.cors()

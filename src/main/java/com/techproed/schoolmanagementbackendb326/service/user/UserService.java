@@ -115,4 +115,9 @@ public class UserService {
     userRepository.save(user);
     return SuccessMessages.USER_UPDATE;
   }
+
+
+  public List<User>getAllUsers() {
+    return userRepository.findAll();
+  }
 }
