@@ -9,6 +9,7 @@ import com.techproed.schoolmanagementbackendb326.payload.response.user.UserRespo
 import com.techproed.schoolmanagementbackendb326.service.user.UserRoleService;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
 
   private final UserRoleService userRoleService;
+
+  private final PasswordEncoder passwordEncoder;
 
   /**
    *
@@ -28,7 +31,7 @@ public class UserMapper {
         .username(userRequest.getUsername())
         .name(userRequest.getName())
         .surname(userRequest.getSurname())
-        .password(userRequest.getPassword())
+        .password(passwordEncoder.encode(userRequest.getPassword()))
         .ssn(userRequest.getSsn())
         .birthday(userRequest.getBirthDay())
         .birthplace(userRequest.getBirthPlace())
