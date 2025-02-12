@@ -3,13 +3,17 @@ package com.techproed.schoolmanagementbackendb326.securtiy.config;
 import com.techproed.schoolmanagementbackendb326.securtiy.jwt.AuthEntryPointJwt;
 import com.techproed.schoolmanagementbackendb326.securtiy.jwt.AuthTokenFilter;
 import com.techproed.schoolmanagementbackendb326.securtiy.service.UserDetailServiceImpl;
+import java.net.PasswordAuthentication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
@@ -35,10 +39,25 @@ public class WebSecurityConfig {
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         //configure allow list
         .and()
-        .authorizeRequests().antMatchers("/").permitAll()
+        .authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll()
         //other requests will be authenticated
         .anyRequest().authenticated();
+        //configure frames to be sure from the same origin
+        http.headers().frameOptions().sameOrigin();
 
+  }
+
+  @Bean
+  public DaoAuthenticationProvider authenticationProvider() {
+    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+    authProvider.setUserDetailsService(userDetailService);
+    authProvider.setPasswordEncoder(passwordEncoder());
+    return authProvider;
+  }
+
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
 
 
