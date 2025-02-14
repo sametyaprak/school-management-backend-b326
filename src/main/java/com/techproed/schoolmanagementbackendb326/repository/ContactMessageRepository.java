@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface ContactRepository extends JpaRepository<ContactMessage, Long> {
+public interface ContactMessageRepository extends JpaRepository<ContactMessage, Long> {
 	List<ContactMessage> findByEmail(
 				String email);
 

@@ -5,7 +5,7 @@ import com.techproed.schoolmanagementbackendb326.entity.concretes.user.User;
 import com.techproed.schoolmanagementbackendb326.exception.BadRequestException;
 import com.techproed.schoolmanagementbackendb326.exception.ResourceNotFoundException;
 import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
-import com.techproed.schoolmanagementbackendb326.repository.ContactRepository;
+import com.techproed.schoolmanagementbackendb326.repository.ContactMessageRepository;
 import com.techproed.schoolmanagementbackendb326.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -40,17 +40,17 @@ public class MethodHelper {
   }
 
   //contactapp
-  private final ContactRepository contactRepository;
+  private final ContactMessageRepository contactMessageRepository;
 
-  public ContactMessage checkMessageExistById(
+  public ContactMessage checkContactMessageExistById(
               Long id) {
-    return contactRepository.findById(id)
+    return contactMessageRepository.findById(id)
                        .orElseThrow(()->new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_MESSAGE, id)));
   }
 
-  public List<ContactMessage> checkMessageExistBySubject(
+  public List<ContactMessage> checkContactMessageExistBySubject(
               String subject) {
-    List<ContactMessage> contactMessages = contactRepository.findBySubjectContainsIgnoreCase(subject);
+    List<ContactMessage> contactMessages = contactMessageRepository.findBySubjectContainsIgnoreCase(subject);
     if (contactMessages.isEmpty()) {
       throw new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_MESSAGE_BY_SUBJECT, subject));
     }

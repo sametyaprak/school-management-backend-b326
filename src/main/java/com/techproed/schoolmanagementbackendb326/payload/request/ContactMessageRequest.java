@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @AllArgsConstructor
 @Builder
-public class ContactRequest {
+public class ContactMessageRequest {
 
 	@NotNull(message = "Name must not be empty")
 	private String name;
