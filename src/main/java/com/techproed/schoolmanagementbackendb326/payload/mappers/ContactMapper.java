@@ -1,0 +1,45 @@
+package com.techproed.schoolmanagementbackendb326.payload.mappers;
+
+import com.techproed.schoolmanagementbackendb326.entity.ContactMessage;
+import com.techproed.schoolmanagementbackendb326.payload.request.ContactRequest;
+import com.techproed.schoolmanagementbackendb326.payload.response.ContactResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Component
+@RequiredArgsConstructor
+public class ContactMapper {
+
+	public ContactResponse mapToResponse(
+				ContactMessage contactMessage) {
+
+		return ContactResponse.builder()
+					       .name(contactMessage.getName())
+					       .email(contactMessage.getEmail())
+					       .subject(contactMessage.getSubject())
+					       .message(contactMessage.getMessage())
+					       .createdAt(contactMessage.getCreatedAt())
+					       .build();
+	}
+
+	public ContactMessage mapToEntity(
+				ContactRequest contactRequest) {
+
+		return ContactMessage.builder()
+					       .name(contactRequest.getName())
+					       .email(contactRequest.getEmail())
+					       .subject(contactRequest.getSubject())
+					       .message(contactRequest.getMessage())
+					       .build();
+	}
+
+	public List<ContactResponse> mapToResponseList(
+				List<ContactMessage> allMessages) {
+		return allMessages.stream()
+					       .map(this::mapToResponse)
+					       .collect(Collectors.toList());
+	}
+}
