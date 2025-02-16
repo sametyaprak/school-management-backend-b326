@@ -1,4 +1,4 @@
-package com.techproed.schoolmanagementbackendb326.payload.request;
+package com.techproed.schoolmanagementbackendb326.payload.request.business;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

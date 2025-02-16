@@ -1,9 +1,9 @@
-package com.techproed.schoolmanagementbackendb326.controller;
+package com.techproed.schoolmanagementbackendb326.controller.businnes;
 
-import com.techproed.schoolmanagementbackendb326.payload.request.ContactMessageRequest;
-import com.techproed.schoolmanagementbackendb326.payload.response.ContactMessageResponse;
+import com.techproed.schoolmanagementbackendb326.payload.request.business.ContactMessageRequest;
+import com.techproed.schoolmanagementbackendb326.payload.response.business.ContactMessageResponse;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
-import com.techproed.schoolmanagementbackendb326.service.ContactMessageService;
+import com.techproed.schoolmanagementbackendb326.service.businnes.ContactMessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;

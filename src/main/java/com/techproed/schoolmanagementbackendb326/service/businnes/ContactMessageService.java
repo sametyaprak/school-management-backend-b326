@@ -1,14 +1,14 @@
-package com.techproed.schoolmanagementbackendb326.service;
+package com.techproed.schoolmanagementbackendb326.service.businnes;
 
 import com.techproed.schoolmanagementbackendb326.entity.ContactMessage;
 import com.techproed.schoolmanagementbackendb326.exception.ResourceNotFoundException;
 import com.techproed.schoolmanagementbackendb326.payload.mappers.ContactMessageMapper;
 import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
 import com.techproed.schoolmanagementbackendb326.payload.messages.SuccessMessages;
-import com.techproed.schoolmanagementbackendb326.payload.request.ContactMessageRequest;
-import com.techproed.schoolmanagementbackendb326.payload.response.ContactMessageResponse;
+import com.techproed.schoolmanagementbackendb326.payload.request.business.ContactMessageRequest;
+import com.techproed.schoolmanagementbackendb326.payload.response.business.ContactMessageResponse;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
-import com.techproed.schoolmanagementbackendb326.repository.ContactMessageRepository;
+import com.techproed.schoolmanagementbackendb326.repository.businnes.ContactMessageRepository;
 import com.techproed.schoolmanagementbackendb326.service.helper.MethodHelper;
 import com.techproed.schoolmanagementbackendb326.service.helper.PageableHelper;
 import lombok.RequiredArgsConstructor;

@@ -5,7 +5,7 @@ import com.techproed.schoolmanagementbackendb326.entity.concretes.user.User;
 import com.techproed.schoolmanagementbackendb326.exception.BadRequestException;
 import com.techproed.schoolmanagementbackendb326.exception.ResourceNotFoundException;
 import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
-import com.techproed.schoolmanagementbackendb326.repository.ContactMessageRepository;
+import com.techproed.schoolmanagementbackendb326.repository.businnes.ContactMessageRepository;
 import com.techproed.schoolmanagementbackendb326.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

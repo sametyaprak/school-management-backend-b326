@@ -1,8 +1,8 @@
 package com.techproed.schoolmanagementbackendb326.payload.mappers;
 
 import com.techproed.schoolmanagementbackendb326.entity.ContactMessage;
-import com.techproed.schoolmanagementbackendb326.payload.request.ContactMessageRequest;
-import com.techproed.schoolmanagementbackendb326.payload.response.ContactMessageResponse;
+import com.techproed.schoolmanagementbackendb326.payload.request.business.ContactMessageRequest;
+import com.techproed.schoolmanagementbackendb326.payload.response.business.ContactMessageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

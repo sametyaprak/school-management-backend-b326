@@ -1,4 +1,4 @@
-package com.techproed.schoolmanagementbackendb326.payload.response;
+package com.techproed.schoolmanagementbackendb326.payload.response.business;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
