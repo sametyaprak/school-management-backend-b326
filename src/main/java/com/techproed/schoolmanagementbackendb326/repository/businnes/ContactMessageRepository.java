@@ -1,4 +1,4 @@
-package com.techproed.schoolmanagementbackendb326.repository;
+package com.techproed.schoolmanagementbackendb326.repository.businnes;
 
 import com.techproed.schoolmanagementbackendb326.entity.ContactMessage;
 import org.springframework.data.jpa.repository.JpaRepository;
