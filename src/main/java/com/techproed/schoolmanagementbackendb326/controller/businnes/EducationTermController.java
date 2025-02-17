@@ -4,10 +4,12 @@ import com.techproed.schoolmanagementbackendb326.payload.request.business.Educat
 import com.techproed.schoolmanagementbackendb326.payload.response.business.EducationTermResponse;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.service.businnes.EducationTermService;
+import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,5 +28,14 @@ public class EducationTermController {
       @Valid @RequestBody EducationTermRequest educationTermRequest) {
     return educationTermService.save(educationTermRequest);
   }
+
+
+  @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean','Teacher')")
+  @GetMapping("/getAll")
+  public List<EducationTermResponse>getAllEducationTerms(){
+    return educationTermService.getAllEducationTerms();
+  }
+
+
 
 }
