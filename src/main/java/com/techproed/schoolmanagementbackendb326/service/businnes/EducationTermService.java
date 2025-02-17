@@ -1,14 +1,20 @@
 package com.techproed.schoolmanagementbackendb326.service.businnes;
 
+import com.techproed.schoolmanagementbackendb326.entity.concretes.business.EducationTerm;
 import com.techproed.schoolmanagementbackendb326.exception.BadRequestException;
 import com.techproed.schoolmanagementbackendb326.exception.ConflictException;
+import com.techproed.schoolmanagementbackendb326.exception.ResourceNotFoundException;
+import com.techproed.schoolmanagementbackendb326.payload.mappers.EducationTermMapper;
 import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
+import com.techproed.schoolmanagementbackendb326.payload.messages.SuccessMessages;
 import com.techproed.schoolmanagementbackendb326.payload.request.business.EducationTermRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.EducationTermResponse;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.repository.businnes.EducationTermRepository;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,13 +22,20 @@ import org.springframework.stereotype.Service;
 public class EducationTermService {
 
   private final EducationTermRepository educationTermRepository;
+  private final EducationTermMapper educationTermMapper;
 
   public ResponseMessage<EducationTermResponse> save(
       @Valid EducationTermRequest educationTermRequest) {
     //validation
     validateEducationTermDates(educationTermRequest);
-    //TODO
     //write mappers DTO->Entity + Entity->DTO
+    EducationTerm educationTerm = educationTermMapper.mapEducationTermRequestToEducationTerm(educationTermRequest);
+    EducationTerm savedEducationTerm = educationTermRepository.save(educationTerm);
+    return ResponseMessage.<EducationTermResponse>builder()
+        .message(SuccessMessages.EDUCATION_TERM_SAVE)
+        .returnBody(educationTermMapper.mapEducationTermToEducationTermResponse(savedEducationTerm))
+        .httpStatus(HttpStatus.CREATED)
+        .build();
   }
 
 
@@ -57,7 +70,27 @@ public class EducationTermService {
     }
   }
 
+  public ResponseMessage<EducationTermResponse> updateEducationTerm(
+      @Valid EducationTermRequest educationTermRequest, Long educationTermId) {
+    //check if education term exist
+    isEducationTermExist(educationTermId);
+    //validate dates
+    validateEducationTermDatesForRequest(educationTermRequest);
+    //mapping
+    EducationTerm term = educationTermMapper.mapEducationTermRequestToEducationTerm(educationTermRequest);
+    term.setId(educationTermId);
+    //return by mapping it to DTO
+    return ResponseMessage.<EducationTermResponse>builder()
+        .message(SuccessMessages.EDUCATION_TERM_UPDATE)
+        .returnBody(educationTermMapper.mapEducationTermToEducationTermResponse(educationTermRepository.save(term)))
+        .httpStatus(HttpStatus.OK)
+        .build();
+  }
 
+  public EducationTerm isEducationTermExist(Long educationTermId) {
+    return educationTermRepository.findById(educationTermId)
+        .orElseThrow(() -> new ResourceNotFoundException(ErrorMessages.EDUCATION_TERM_NOT_FOUND_MESSAGE));
+  }
 
 
 }
