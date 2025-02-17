@@ -108,6 +108,7 @@ public class EducationTermService {
 
   public ResponseMessage deleteById(Long educationTermId) {
     isEducationTermExist(educationTermId);
+    educationTermRepository.deleteById(educationTermId);
     return ResponseMessage.builder()
         .message(SuccessMessages.EDUCATION_TERM_DELETE)
         .httpStatus(HttpStatus.OK)
