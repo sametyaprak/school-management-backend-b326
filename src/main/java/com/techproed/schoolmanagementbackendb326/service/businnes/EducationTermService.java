@@ -97,6 +97,12 @@ public class EducationTermService {
         .orElseThrow(() -> new ResourceNotFoundException(ErrorMessages.EDUCATION_TERM_NOT_FOUND_MESSAGE));
   }
 
+  public EducationTermResponse getEducationTermById(Long educationTermId) {
+    // Validate if the education term exists in the database
+    EducationTerm educationTerm = isEducationTermExist(educationTermId);
+    // Map the entity to DTO and return the response
+    return educationTermMapper.mapEducationTermToEducationTermResponse(educationTerm);
+  }
 
   public Page<EducationTermResponse> getByPage(int page, int size, String sort, String type) {
     Pageable pageable = pageableHelper.getPageable(page, size, sort, type);
