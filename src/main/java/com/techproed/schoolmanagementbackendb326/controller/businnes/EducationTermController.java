@@ -52,14 +52,10 @@ public class EducationTermController {
     return educationTermService.getAllEducationTerms();
   }
 
-
-  //TODO
-  // esra
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean','Teacher')")
   @GetMapping("/{educationTermId}")
-  public EducationTermResponse getEducationTerm(Long educationTermId) {
-    //return educationTermService.getEducationTermById(educationTermId);
-    return null;
+  public EducationTermResponse getEducationTerm(@PathVariable Long educationTermId) {
+    return educationTermService.getEducationTermById(educationTermId);
   }
 
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean','Teacher')")
