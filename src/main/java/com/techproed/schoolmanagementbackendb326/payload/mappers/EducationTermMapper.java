@@ -36,4 +36,9 @@ public class EducationTermMapper {
                 .lastRegistrationDate(educationTerm.getLastRegistrationDate())
                 .build();
     }
+
+
+
+
+
 }
