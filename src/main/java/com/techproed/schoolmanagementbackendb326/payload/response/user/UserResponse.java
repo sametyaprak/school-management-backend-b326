@@ -13,6 +13,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @JsonInclude(Include.NON_NULL)
-public class UserResponse extends BaseUserResponse {
+public class  UserResponse extends BaseUserResponse {
 
 }

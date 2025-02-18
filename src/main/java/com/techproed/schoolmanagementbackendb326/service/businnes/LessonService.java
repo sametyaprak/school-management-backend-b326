@@ -2,6 +2,7 @@ package com.techproed.schoolmanagementbackendb326.service.businnes;
 
 import com.techproed.schoolmanagementbackendb326.entity.concretes.business.Lesson;
 import com.techproed.schoolmanagementbackendb326.exception.ConflictException;
+import com.techproed.schoolmanagementbackendb326.exception.ResourceNotFoundException;
 import com.techproed.schoolmanagementbackendb326.payload.mappers.LessonMapper;
 import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
 import com.techproed.schoolmanagementbackendb326.payload.messages.SuccessMessages;
@@ -35,7 +36,13 @@ public class LessonService {
         .build();
   }
 
-
+  public ResponseMessage<LessonResponse> findLessonByName(String lessonName) {
+    return ResponseMessage.<LessonResponse>builder()
+            .message(SuccessMessages.LESSON_FOUND)
+            .returnBody(lessonMapper.mapLessonToLessonResponse(getLessonByName(lessonName)))
+            .httpStatus(HttpStatus.OK)
+            .build();
+  }
 
 
 
@@ -47,6 +54,25 @@ public class LessonService {
       throw new ConflictException(String.format(ErrorMessages.ALREADY_CREATED_LESSON_MESSAGE,lessonName));
     }
   }
+
+  private Lesson getLessonByName(String lessonName){
+    return lessonRepository.findByLessonNameEqualsIgnoreCase(lessonName)
+            .orElseThrow(()->new ResourceNotFoundException(
+                    String.format(ErrorMessages.NOT_FOUND_LESSON_IN_LIST,lessonName)));
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

@@ -41,11 +41,11 @@ public class LessonController {
 
   //TODO nesli
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
-  @GetMapping("/getLessonByName")
+  @GetMapping("/getLessonByName/{lessonName}")
   public ResponseMessage<LessonResponse>getLessonByName(
-      @RequestParam String lessonName){
-    //return lessonService.findLessonByName(lessonName);
-    return null;
+          @PathVariable String lessonName){
+    return lessonService.findLessonByName(lessonName);
+
   }
 
 
