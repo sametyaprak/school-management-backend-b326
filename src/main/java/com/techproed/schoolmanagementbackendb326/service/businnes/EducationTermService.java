@@ -13,6 +13,8 @@ import com.techproed.schoolmanagementbackendb326.payload.response.business.Respo
 import com.techproed.schoolmanagementbackendb326.repository.businnes.EducationTermRepository;
 import com.techproed.schoolmanagementbackendb326.service.helper.PageableHelper;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
@@ -114,4 +116,10 @@ public class EducationTermService {
         .httpStatus(HttpStatus.OK)
         .build();
   }
+
+  public List<EducationTermResponse> getAllEducationTerms() {
+    List<EducationTerm> allEducationTerms = educationTermRepository.findAll();
+    return allEducationTerms.stream().map(educationTermMapper::mapEducationTermToEducationTermResponse).collect(Collectors.toList());
+  }
+
 }

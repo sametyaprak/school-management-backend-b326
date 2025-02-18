@@ -45,13 +45,11 @@ public class EducationTermController {
   }
 
 
-  //TODO
-  // ummu
+
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean','Teacher')")
   @GetMapping("/getAll")
   public List<EducationTermResponse>getAllEducationTerms(){
-    //return educationTermService.getAllEducationTerms();
-    return null;
+    return educationTermService.getAllEducationTerms();
   }
 
 
