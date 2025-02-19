@@ -29,7 +29,7 @@ public class LessonService {
 
   public ResponseMessage<LessonResponse> saveLesson(@Valid LessonRequest lessonRequest) {
     //validate - lesson name must be unique
-    getLessonByName(lessonRequest.getLessonName());
+    isLessonExistByName(lessonRequest.getLessonName());
     //map DTO to Entity
     Lesson lesson = lessonMapper.mapLessonRequestToLesson(lessonRequest);
     Lesson savedLesson = lessonRepository.save(lesson);
@@ -58,6 +58,13 @@ public class LessonService {
         .build();
   }
 
+
+  private void isLessonExistByName(String lessonName) {
+    if (lessonRepository.findByLessonNameEqualsIgnoreCase(lessonName).isPresent()) {
+      throw new ConflictException(
+          String.format(ErrorMessages.ALREADY_CREATED_LESSON_MESSAGE, lessonName));
+    }
+  }
 
   private Lesson getLessonByName(String lessonName) {
     return lessonRepository.findByLessonNameEqualsIgnoreCase(lessonName)
