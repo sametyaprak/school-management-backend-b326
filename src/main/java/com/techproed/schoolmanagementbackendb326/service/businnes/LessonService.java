@@ -25,12 +25,12 @@ public class LessonService {
 
   private final LessonRepository lessonRepository;
   private final LessonMapper lessonMapper;
-   private final PageableHelper pageableHelper;
+  private final PageableHelper pageableHelper;
 
   public ResponseMessage<LessonResponse> saveLesson(@Valid LessonRequest lessonRequest) {
-  //validate - lesson name must be unique
-  isLessonExistByName(lessonRequest.getLessonName());
-  //map DTO to Entity
+    //validate - lesson name must be unique
+    isLessonExistByName(lessonRequest.getLessonName());
+    //map DTO to Entity
     Lesson lesson = lessonMapper.mapLessonRequestToLesson(lessonRequest);
     Lesson savedLesson = lessonRepository.save(lesson);
 
@@ -41,34 +41,46 @@ public class LessonService {
         .build();
   }
 
-    public ResponseMessage<LessonResponse> deleteLesson(Long lessonId) {
+  public ResponseMessage<LessonResponse> deleteLesson(Long lessonId) {
 
-        return ResponseMessage.<LessonResponse>builder()
-                .returnBody(lessonMapper.mapLessonToLessonResponse(deleteLessonById(lessonId)))
-                .httpStatus(HttpStatus.OK)
-                .message(SuccessMessages.LESSON_DELETE)
-                .build();
+    return ResponseMessage.<LessonResponse>builder()
+        .returnBody(lessonMapper.mapLessonToLessonResponse(deleteLessonById(lessonId)))
+        .httpStatus(HttpStatus.OK)
+        .message(SuccessMessages.LESSON_DELETE)
+        .build();
+  }
 
-    }
+  public ResponseMessage<LessonResponse> findLessonByName(String lessonName) {
+    return ResponseMessage.<LessonResponse>builder()
+        .message(SuccessMessages.LESSON_FOUND)
+        .returnBody(lessonMapper.mapLessonToLessonResponse(getLessonByName(lessonName)))
+        .httpStatus(HttpStatus.OK)
+        .build();
+  }
 
 
-
-
-    private void isLessonExistByName(String lessonName) {
-    if(lessonRepository.findByLessonNameEqualsIgnoreCase(lessonName).isPresent()) {
-      throw new ConflictException(String.format(ErrorMessages.ALREADY_CREATED_LESSON_MESSAGE,lessonName));
+  private void isLessonExistByName(String lessonName) {
+    if (lessonRepository.findByLessonNameEqualsIgnoreCase(lessonName).isPresent()) {
+      throw new ConflictException(
+          String.format(ErrorMessages.ALREADY_CREATED_LESSON_MESSAGE, lessonName));
     }
   }
 
-    private Lesson deleteLessonById(Long lessonId) {
-        Lesson lesson = lessonRepository.findById(lessonId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        String.format(ErrorMessages.NOT_FOUND_LESSON_MESSAGE, lessonId)));
-        lessonRepository.delete(lesson);
+  private Lesson getLessonByName(String lessonName) {
+    return lessonRepository.findByLessonNameEqualsIgnoreCase(lessonName)
+        .orElseThrow(() -> new ResourceNotFoundException(
+            String.format(ErrorMessages.NOT_FOUND_LESSON_IN_LIST, lessonName)));
+  }
 
-        return lesson;
-    }
+
+  private Lesson deleteLessonById(Long lessonId) {
+    Lesson lesson = lessonRepository.findById(lessonId)
+        .orElseThrow(() -> new ResourceNotFoundException(
+            String.format(ErrorMessages.NOT_FOUND_LESSON_MESSAGE, lessonId)));
+    lessonRepository.delete(lesson);
+
+    return lesson;
+  }
 
 
 }
-

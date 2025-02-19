@@ -31,7 +31,7 @@ public class LessonController {
     return lessonService.saveLesson(lessonRequest);
   }
 
-  //TODO edip
+
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @DeleteMapping("/delete/{lessonId}")
   public ResponseMessage deleteLesson(@PathVariable Long lessonId) {
@@ -44,8 +44,8 @@ public class LessonController {
   @GetMapping("/getLessonByName/{lessonName}")
   public ResponseMessage<LessonResponse>getLessonByName(
           @PathVariable String lessonName){
-    //return lessonService.findLessonByName(lessonName);
-      return null;
+    return lessonService.findLessonByName(lessonName);
+
   }
 
   //TODO ertugrul
