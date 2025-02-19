@@ -59,7 +59,6 @@ public class LessonService {
         Lesson lesson = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         String.format(ErrorMessages.NOT_FOUND_LESSON_MESSAGE, lessonId)));
-
         lessonRepository.delete(lesson);
 
         return lesson;

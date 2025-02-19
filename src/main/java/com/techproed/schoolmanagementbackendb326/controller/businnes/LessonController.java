@@ -43,8 +43,8 @@ public class LessonController {
   @GetMapping("/getLessonByName/{lessonName}")
   public ResponseMessage<LessonResponse>getLessonByName(
           @PathVariable String lessonName){
-    return lessonService.findLessonByName(lessonName);
-
+    //return lessonService.findLessonByName(lessonName);
+      return null;
   }
 
 
