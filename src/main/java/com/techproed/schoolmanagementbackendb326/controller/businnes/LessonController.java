@@ -1,9 +1,11 @@
 package com.techproed.schoolmanagementbackendb326.controller.businnes;
 
+import com.techproed.schoolmanagementbackendb326.entity.concretes.business.Lesson;
 import com.techproed.schoolmanagementbackendb326.payload.request.business.LessonRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.LessonResponse;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.service.businnes.LessonService;
+import java.util.Set;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -69,6 +71,16 @@ public class LessonController {
   ){
     return lessonService.getLessonByPage(page,size,sort,type);
   }
+
+
+  @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
+  @GetMapping("/getAllByIdSet")
+  public Set<Lesson>getAllByIdSet(@RequestParam(name = "lessonId") Set<Long> idSet){
+    return lessonService.getAllByIdSet(idSet);
+  }
+
+
+
 
 
 }

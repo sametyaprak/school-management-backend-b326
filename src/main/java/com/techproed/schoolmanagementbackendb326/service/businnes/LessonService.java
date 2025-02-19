@@ -11,6 +11,8 @@ import com.techproed.schoolmanagementbackendb326.payload.response.business.Lesso
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.repository.businnes.LessonRepository;
 import com.techproed.schoolmanagementbackendb326.service.helper.PageableHelper;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -104,5 +106,11 @@ public class LessonService {
     lessonToUpdate.setId(lessonId);
     Lesson savedLesson = lessonRepository.save(lessonToUpdate);
     return lessonMapper.mapLessonToLessonResponse(savedLesson);
+  }
+
+  public Set<Lesson> getAllByIdSet(Set<Long> idSet) {
+    return idSet.stream()
+        .map(this::isLessonExistById)
+        .collect(Collectors.toSet());
   }
 }
