@@ -31,7 +31,7 @@ public class LessonController {
     return lessonService.saveLesson(lessonRequest);
   }
 
-  //TODO edip
+
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @DeleteMapping("/delete/{lessonId}")
   public ResponseMessage deleteLesson(@PathVariable Long lessonId) {
@@ -60,6 +60,8 @@ public class LessonController {
     //return lessonService.getLessonByPage(page,size,sort,type);
     return null;
   }
+
+  //test
 
 
 }
