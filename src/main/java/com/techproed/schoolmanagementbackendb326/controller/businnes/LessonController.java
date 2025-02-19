@@ -31,22 +31,22 @@ public class LessonController {
     return lessonService.saveLesson(lessonRequest);
   }
 
-  //TODO edip
+
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @DeleteMapping("/delete/{lessonId}")
   public ResponseMessage deleteLesson(@PathVariable Long lessonId) {
     return lessonService.deleteLesson(lessonId);
   }
 
+
   //TODO nesli
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
-  @GetMapping("/getLessonByName")
+  @GetMapping("/getLessonByName/{lessonName}")
   public ResponseMessage<LessonResponse>getLessonByName(
           @PathVariable String lessonName){
     return lessonService.findLessonByName(lessonName);
 
   }
-
 
   //TODO ertugrul
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
@@ -60,5 +60,6 @@ public class LessonController {
     //return lessonService.getLessonByPage(page,size,sort,type);
     return null;
   }
+
 
 }
