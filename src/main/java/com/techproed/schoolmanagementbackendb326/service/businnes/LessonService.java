@@ -54,7 +54,6 @@ public class LessonService {
 
 
 
-
     private void isLessonExistByName(String lessonName) {
     if(lessonRepository.findByLessonNameEqualsIgnoreCase(lessonName).isPresent()) {
       throw new ConflictException(String.format(ErrorMessages.ALREADY_CREATED_LESSON_MESSAGE,lessonName));
