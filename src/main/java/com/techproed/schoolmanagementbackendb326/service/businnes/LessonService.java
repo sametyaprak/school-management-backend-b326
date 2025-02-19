@@ -2,6 +2,7 @@ package com.techproed.schoolmanagementbackendb326.service.businnes;
 
 import com.techproed.schoolmanagementbackendb326.entity.concretes.business.Lesson;
 import com.techproed.schoolmanagementbackendb326.exception.ConflictException;
+import com.techproed.schoolmanagementbackendb326.exception.ResourceNotFoundException;
 import com.techproed.schoolmanagementbackendb326.payload.mappers.LessonMapper;
 import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
 import com.techproed.schoolmanagementbackendb326.payload.messages.SuccessMessages;
@@ -35,18 +36,30 @@ public class LessonService {
         .build();
   }
 
+  public ResponseMessage deleteLesson(Long lessonId){
+
+      Lesson lesson = lessonRepository.findById(lessonId)
+              .orElseThrow(() -> new ResourceNotFoundException("Lesson not found with id: " + lessonId));
+
+      lessonRepository.delete(lesson);
+
+      return ResponseMessage.<LessonResponse>builder()
+              .returnBody(lessonMapper.mapLessonToLessonResponse(lesson))
+              .httpStatus(HttpStatus.OK)
+              .message(SuccessMessages.LESSON_DELETE)
+              .build();
+
+  }
 
 
 
 
-
-
-
-  private void isLessonExistByName(String lessonName) {
+    private void isLessonExistByName(String lessonName) {
     if(lessonRepository.findByLessonNameEqualsIgnoreCase(lessonName).isPresent()) {
       throw new ConflictException(String.format(ErrorMessages.ALREADY_CREATED_LESSON_MESSAGE,lessonName));
     }
   }
+
 
 
 }

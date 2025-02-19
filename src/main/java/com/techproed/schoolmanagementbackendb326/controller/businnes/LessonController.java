@@ -35,8 +35,7 @@ public class LessonController {
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @DeleteMapping("/delete/{lessonId}")
   public ResponseMessage deleteLesson(@PathVariable Long lessonId) {
-    //return lessonService.deleteLesson(lessonId);
-    return null;
+    return lessonService.deleteLesson(lessonId);
   }
 
   //TODO nesli
