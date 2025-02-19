@@ -60,7 +60,7 @@ public class LessonService {
     Pageable pageable = pageableHelper.getPageable(page, size, sort, type);
 
     Page<Lesson> lessons = lessonRepository.findAll(pageable);
-
+// use mapper
     return lessons.map(lessonMapper::mapLessonToLessonResponse);
 
 
