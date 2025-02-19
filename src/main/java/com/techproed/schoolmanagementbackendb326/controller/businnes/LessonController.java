@@ -38,6 +38,7 @@ public class LessonController {
     return lessonService.deleteLesson(lessonId);
   }
 
+
   //TODO nesli
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @GetMapping("/getLessonByName/{lessonName}")
