@@ -78,9 +78,26 @@ public class LessonService {
         .orElseThrow(() -> new ResourceNotFoundException(
             String.format(ErrorMessages.NOT_FOUND_LESSON_MESSAGE, lessonId)));
     lessonRepository.delete(lesson);
-
     return lesson;
   }
 
+  public Lesson isLessonExistById(Long lessonId) {
+    return lessonRepository.findById(lessonId)
+        .orElseThrow(() -> new ResourceNotFoundException(String.format(ErrorMessages.NOT_FOUND_LESSON_MESSAGE, lessonId)));
+  }
 
+
+  public LessonResponse updateLesson(@Valid LessonRequest lessonRequest, Long lessonId) {
+    //validate if exist
+    Lesson lessonFromDb = isLessonExistById(lessonId);
+    //check if user changes the name
+    if(!lessonRequest.getLessonName().equals(lessonFromDb.getLessonName())) {
+      //then check DB in case of conflict
+      isLessonExistByName(lessonRequest.getLessonName());
+    }
+    Lesson lessonToUpdate = lessonMapper.mapLessonRequestToLesson(lessonRequest);
+    lessonToUpdate.setId(lessonId);
+    Lesson savedLesson = lessonRepository.save(lessonToUpdate);
+    return lessonMapper.mapLessonToLessonResponse(savedLesson);
+  }
 }
