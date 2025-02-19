@@ -36,20 +36,15 @@ public class LessonService {
         .build();
   }
 
-  public ResponseMessage deleteLesson(Long lessonId){
+    public ResponseMessage<LessonResponse> deleteLesson(Long lessonId) {
 
-      Lesson lesson = lessonRepository.findById(lessonId)
-              .orElseThrow(() -> new ResourceNotFoundException("Lesson not found with id: " + lessonId));
+        return ResponseMessage.<LessonResponse>builder()
+                .returnBody(lessonMapper.mapLessonToLessonResponse(deleteLessonById(lessonId)))
+                .httpStatus(HttpStatus.OK)
+                .message(SuccessMessages.LESSON_DELETE)
+                .build();
 
-      lessonRepository.delete(lesson);
-
-      return ResponseMessage.<LessonResponse>builder()
-              .returnBody(lessonMapper.mapLessonToLessonResponse(lesson))
-              .httpStatus(HttpStatus.OK)
-              .message(SuccessMessages.LESSON_DELETE)
-              .build();
-
-  }
+    }
 
 
 
@@ -60,6 +55,15 @@ public class LessonService {
     }
   }
 
+    private Lesson deleteLessonById(Long lessonId) {
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format(ErrorMessages.NOT_FOUND_LESSON_MESSAGE, lessonId)));
+
+        lessonRepository.delete(lesson);
+
+        return lesson;
+    }
 
 
 }
