@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class LessonProgramMapper {
 
 
-  private LessonProgram mapLessonProgramRequestToLessonProgram(
+  public LessonProgram mapLessonProgramRequestToLessonProgram(
       LessonProgramRequest lessonProgramRequest,
       Set<Lesson>lessonSet, EducationTerm educationTerm) {
     return LessonProgram.builder()
