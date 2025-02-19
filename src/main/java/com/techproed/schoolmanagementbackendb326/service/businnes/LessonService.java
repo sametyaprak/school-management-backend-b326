@@ -10,9 +10,8 @@ import com.techproed.schoolmanagementbackendb326.payload.request.business.Lesson
 import com.techproed.schoolmanagementbackendb326.payload.response.business.LessonResponse;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.repository.businnes.LessonRepository;
-import javax.validation.Valid;
-
 import com.techproed.schoolmanagementbackendb326.service.helper.PageableHelper;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,9 +27,9 @@ public class LessonService {
   private final PageableHelper pageableHelper;
 
   public ResponseMessage<LessonResponse> saveLesson(@Valid LessonRequest lessonRequest) {
-    //validate - lesson name must be unique
-    isLessonExistByName(lessonRequest.getLessonName());
-    //map DTO to Entity
+  //validate - lesson name must be unique
+  isLessonExistByName(lessonRequest.getLessonName());
+  //map DTO to Entity
     Lesson lesson = lessonMapper.mapLessonRequestToLesson(lessonRequest);
     Lesson savedLesson = lessonRepository.save(lesson);
 
@@ -72,6 +71,12 @@ public class LessonService {
             String.format(ErrorMessages.NOT_FOUND_LESSON_IN_LIST, lessonName)));
   }
 
+
+  public Page<LessonResponse> getLessonByPage(int page, int size, String sort, String type) {
+    Pageable pageable = pageableHelper.getPageable(page, size, sort, type);
+    Page<Lesson> lessons = lessonRepository.findAll(pageable);
+    return lessons.map(lessonMapper::mapLessonToLessonResponse);
+  }
 
   private Lesson deleteLessonById(Long lessonId) {
     Lesson lesson = lessonRepository.findById(lessonId)

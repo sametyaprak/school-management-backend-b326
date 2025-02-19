@@ -58,7 +58,7 @@ public class LessonController {
 
   }
 
-  //TODO ertugrul
+
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @GetMapping("/getLessonByPage")
   public Page<LessonResponse> findLessonByPage(
@@ -67,8 +67,7 @@ public class LessonController {
       @RequestParam(value = "sort",defaultValue = "lessonName") String sort,
       @RequestParam(value = "type",defaultValue = "desc") String type
   ){
-    //return lessonService.getLessonByPage(page,size,sort,type);
-    return null;
+    return lessonService.getLessonByPage(page,size,sort,type);
   }
 
 
