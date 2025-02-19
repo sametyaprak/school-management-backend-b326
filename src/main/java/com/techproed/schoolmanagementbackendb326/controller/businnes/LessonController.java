@@ -35,19 +35,18 @@ public class LessonController {
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @DeleteMapping("/delete/{lessonId}")
   public ResponseMessage deleteLesson(@PathVariable Long lessonId) {
-    //return lessonService.deleteLesson(lessonId);
-    return null;
+    return lessonService.deleteLesson(lessonId);
   }
+
 
   //TODO nesli
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
-  @GetMapping("/getLessonByName")
+  @GetMapping("/getLessonByName/{lessonName}")
   public ResponseMessage<LessonResponse>getLessonByName(
-      @RequestParam String lessonName){
+          @PathVariable String lessonName){
     //return lessonService.findLessonByName(lessonName);
-    return null;
+      return null;
   }
-
 
   //TODO ertugrul
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
@@ -58,8 +57,9 @@ public class LessonController {
       @RequestParam(value = "sort",defaultValue = "lessonName") String sort,
       @RequestParam(value = "type",defaultValue = "desc") String type
   ){
-    return lessonService.getLessonByPage(page,size,sort,type);
-
+    //return lessonService.getLessonByPage(page,size,sort,type);
+    return null;
   }
+
 
 }
