@@ -35,13 +35,12 @@ public class LessonController {
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @DeleteMapping("/delete/{lessonId}")
   public ResponseMessage deleteLesson(@PathVariable Long lessonId) {
-    //return lessonService.deleteLesson(lessonId);
-    return null;
+    return lessonService.deleteLesson(lessonId);
   }
 
   //TODO nesli
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
-  @GetMapping("/getLessonByName/{lessonName}")
+  @GetMapping("/getLessonByName")
   public ResponseMessage<LessonResponse>getLessonByName(
           @PathVariable String lessonName){
     return lessonService.findLessonByName(lessonName);
