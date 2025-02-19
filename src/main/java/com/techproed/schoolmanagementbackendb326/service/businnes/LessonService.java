@@ -48,17 +48,45 @@ public class LessonService {
                 .httpStatus(HttpStatus.OK)
                 .message(SuccessMessages.LESSON_DELETE)
                 .build();
+        }
 
-    }
+  public ResponseMessage<LessonResponse> findLessonByName(String lessonName) {
+    return ResponseMessage.<LessonResponse>builder()
+            .message(SuccessMessages.LESSON_FOUND)
+            .returnBody(lessonMapper.mapLessonToLessonResponse(getLessonByName(lessonName)))
+            .httpStatus(HttpStatus.OK)
+            .build();
+  }
 
 
 
 
-    private void isLessonExistByName(String lessonName) {
+
+
+  private void isLessonExistByName(String lessonName) {
     if(lessonRepository.findByLessonNameEqualsIgnoreCase(lessonName).isPresent()) {
       throw new ConflictException(String.format(ErrorMessages.ALREADY_CREATED_LESSON_MESSAGE,lessonName));
     }
   }
+
+  private Lesson getLessonByName(String lessonName){
+    return lessonRepository.findByLessonNameEqualsIgnoreCase(lessonName)
+            .orElseThrow(()->new ResourceNotFoundException(
+                    String.format(ErrorMessages.NOT_FOUND_LESSON_IN_LIST,lessonName)));
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private Lesson deleteLessonById(Long lessonId) {
         Lesson lesson = lessonRepository.findById(lessonId)
@@ -71,4 +99,3 @@ public class LessonService {
 
 
 }
-

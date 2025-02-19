@@ -44,8 +44,8 @@ public class LessonController {
   @GetMapping("/getLessonByName/{lessonName}")
   public ResponseMessage<LessonResponse>getLessonByName(
           @PathVariable String lessonName){
-    //return lessonService.findLessonByName(lessonName);
-      return null;
+    return lessonService.findLessonByName(lessonName);
+
   }
 
   //TODO ertugrul
@@ -60,8 +60,6 @@ public class LessonController {
     //return lessonService.getLessonByPage(page,size,sort,type);
     return null;
   }
-
-  //test
 
 
 }
