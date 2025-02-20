@@ -5,7 +5,6 @@ import com.techproed.schoolmanagementbackendb326.entity.concretes.business.Lesso
 import com.techproed.schoolmanagementbackendb326.entity.concretes.business.LessonProgram;
 import com.techproed.schoolmanagementbackendb326.payload.request.business.LessonProgramRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.LessonProgramResponse;
-import com.techproed.schoolmanagementbackendb326.payload.response.business.LessonResponse;
 import java.util.Set;
 import org.springframework.stereotype.Component;
 
