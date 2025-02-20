@@ -32,11 +32,10 @@ public class LessonProgramController {
   }
 
   //TODO KEMAL
-  @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean','Teacher','Student')")
+  @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @GetMapping("/getAll")
-  public List<LessonProgramResponse> getAllLessonPrograms(){
-    //return lessonProgramService.getAllLessonPrograms();
-    return null;
+  public List<LessonProgramResponse>getAllLessonPrograms(){
+    return lessonProgramService.getAllLessonPrograms();
   }
 
   //TODO LEVEN

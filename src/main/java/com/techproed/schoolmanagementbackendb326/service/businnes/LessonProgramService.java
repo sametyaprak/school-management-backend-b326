@@ -63,4 +63,9 @@ public class LessonProgramService {
         .map(lessonProgramMapper::mapLessonProgramToLessonProgramResponse)
         .collect(Collectors.toList());
   }
+  public List<LessonProgramResponse> getAllLessonPrograms() {
+    List<LessonProgram> allLessonPrograms = lessonProgramRepository.findAll();
+    return allLessonPrograms.stream().map(lessonProgramMapper::mapLessonProgramToLessonProgramResponse).collect(Collectors.toList());
+  }
+
 }
