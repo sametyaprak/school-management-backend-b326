@@ -12,7 +12,7 @@ import com.techproed.schoolmanagementbackendb326.payload.request.business.Educat
 import com.techproed.schoolmanagementbackendb326.payload.response.business.EducationTermResponse;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.repository.businnes.EducationTermRepository;
-import com.techproed.schoolmanagementbackendb326.service.helper.PageableHelper;;
+import com.techproed.schoolmanagementbackendb326.service.helper.PageableHelper;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
