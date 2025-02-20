@@ -5,6 +5,7 @@ import com.techproed.schoolmanagementbackendb326.payload.request.business.Educat
 import com.techproed.schoolmanagementbackendb326.payload.response.business.EducationTermResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
@@ -17,7 +18,8 @@ public interface EducationTermMapper {
 
     EducationTerm mapEducationTermRequestToEducationTerm(EducationTermRequest educationTermRequest);
 
+    //TODO check the usage
     EducationTerm updateEducationTermWithEducationTermRequest(EducationTermRequest educationTermRequest, @MappingTarget EducationTerm educationTerm);
 
-    EducationTermResponse mapEducationTermToEducationTermResponse(EducationTerm educationTerm);
+    EducationTermResponse mapEducationTermToEducationTermResponse( EducationTerm educationTerm);
 }

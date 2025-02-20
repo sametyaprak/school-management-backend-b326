@@ -17,6 +17,7 @@
 
     <properties>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
+        <postgres.version>42.6.0</postgres.version>
     </properties>
 
     <dependencies>
@@ -43,7 +44,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.6.0</version>
+            <version>${postgres.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
