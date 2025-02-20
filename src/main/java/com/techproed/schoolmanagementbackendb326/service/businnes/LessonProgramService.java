@@ -56,4 +56,11 @@ public class LessonProgramService {
         .map(lessonProgramMapper::mapLessonProgramToLessonProgramResponse)
         .collect(Collectors.toList());
   }
+
+  public List<LessonProgramResponse> getAllAssigned() {
+    return lessonProgramRepository.findByUsers_IdNotNull()
+        .stream()
+        .map(lessonProgramMapper::mapLessonProgramToLessonProgramResponse)
+        .collect(Collectors.toList());
+  }
 }
