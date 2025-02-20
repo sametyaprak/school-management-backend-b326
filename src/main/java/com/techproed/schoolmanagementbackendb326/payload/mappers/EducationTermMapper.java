@@ -17,5 +17,7 @@ public interface EducationTermMapper {
 
     EducationTerm mapEducationTermRequestToEducationTerm(EducationTermRequest educationTermRequest);
 
+    EducationTerm updateEducationTermWithEducationTermRequest(EducationTermRequest educationTermRequest, @MappingTarget EducationTerm educationTerm);
+
     EducationTermResponse mapEducationTermToEducationTermResponse(EducationTerm educationTerm);
 }
