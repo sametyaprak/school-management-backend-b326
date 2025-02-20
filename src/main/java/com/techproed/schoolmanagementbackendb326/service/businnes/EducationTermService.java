@@ -8,6 +8,7 @@ import com.techproed.schoolmanagementbackendb326.payload.mappers.EducationTermMa
 import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
 import com.techproed.schoolmanagementbackendb326.payload.messages.SuccessMessages;
 import com.techproed.schoolmanagementbackendb326.payload.request.business.EducationTermRequest;
+import com.techproed.schoolmanagementbackendb326.payload.request.business.EducationTermUpdateRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.EducationTermResponse;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.repository.businnes.EducationTermRepository;
@@ -78,18 +79,18 @@ public class EducationTermService {
   }
 
   public ResponseMessage<EducationTermResponse> updateEducationTerm(
-      @Valid EducationTermRequest educationTermRequest, Long educationTermId) {
+          @Valid EducationTermUpdateRequest educationTermRequest, Long educationTermId) {
     //check if education term exist
-    isEducationTermExist(educationTermId);
+    EducationTerm foundEducationTerm = isEducationTermExist(educationTermId);
     //validate dates
-    validateEducationTermDatesForRequest(educationTermRequest);
+    //validateEducationTermDatesForRequest(educationTermRequest);
     //mapping
-    EducationTerm term = educationTermMapper.mapEducationTermRequestToEducationTerm(educationTermRequest);
-    term.setId(educationTermId);
+    EducationTerm updatedEducationTerm = educationTermMapper.updateEducationTermWithEducationTermUpdateRequest(educationTermRequest, foundEducationTerm);
+    //term.setId(educationTermId);
     //return by mapping it to DTO
     return ResponseMessage.<EducationTermResponse>builder()
         .message(SuccessMessages.EDUCATION_TERM_UPDATE)
-        .returnBody(educationTermMapper.mapEducationTermToEducationTermResponse(educationTermRepository.save(term)))
+        .returnBody(educationTermMapper.mapEducationTermToEducationTermResponse(educationTermRepository.save(updatedEducationTerm)))
         .httpStatus(HttpStatus.OK)
         .build();
   }
