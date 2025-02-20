@@ -5,7 +5,7 @@ import com.techproed.schoolmanagementbackendb326.entity.concretes.business.Lesso
 import com.techproed.schoolmanagementbackendb326.entity.concretes.business.LessonProgram;
 import com.techproed.schoolmanagementbackendb326.payload.request.business.LessonProgramRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.LessonProgramResponse;
-import java.util.Set;
+import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,7 +14,7 @@ public class LessonProgramMapper {
 
   public LessonProgram mapLessonProgramRequestToLessonProgram(
       LessonProgramRequest lessonProgramRequest,
-      Set<Lesson>lessonSet, EducationTerm educationTerm) {
+      List<Lesson> lessonSet, EducationTerm educationTerm) {
     return LessonProgram.builder()
         .startTime(lessonProgramRequest.getStartTime())
         .stopTime(lessonProgramRequest.getStopTime())

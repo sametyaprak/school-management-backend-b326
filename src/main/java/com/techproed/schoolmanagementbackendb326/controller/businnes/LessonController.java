@@ -5,6 +5,7 @@ import com.techproed.schoolmanagementbackendb326.payload.request.business.Lesson
 import com.techproed.schoolmanagementbackendb326.payload.response.business.LessonResponse;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.service.businnes.LessonService;
+import java.util.List;
 import java.util.Set;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -75,7 +76,7 @@ public class LessonController {
 
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @GetMapping("/getAllByIdSet")
-  public Set<Lesson>getAllByIdSet(@RequestParam(name = "lessonId") Set<Long> idSet){
+  public List<Lesson> getAllByIdSet(@RequestParam(name = "lessonId") List<Long> idSet){
     return lessonService.getAllByIdSet(idSet);
   }
 

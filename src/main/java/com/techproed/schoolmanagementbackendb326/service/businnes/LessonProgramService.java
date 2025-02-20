@@ -10,6 +10,7 @@ import com.techproed.schoolmanagementbackendb326.payload.response.business.Lesso
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.repository.businnes.LessonProgramRepository;
 import com.techproed.schoolmanagementbackendb326.service.validator.TimeValidator;
+import java.util.List;
 import java.util.Set;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class LessonProgramService {
   public ResponseMessage<LessonProgramResponse> saveLessonProgram(
       @Valid LessonProgramRequest lessonProgramRequest) {
     //get lessons from DB
-    Set<Lesson>lessons = lessonService.getAllByIdSet(lessonProgramRequest.getLessonIdList());
+    List<Lesson> lessons = lessonService.getAllByIdSet(lessonProgramRequest.getLessonIdList());
     //get education term from DB
     EducationTerm educationTerm = educationTermService.isEducationTermExist(lessonProgramRequest.getEducationTermId());
     //validate start + end time

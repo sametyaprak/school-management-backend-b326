@@ -11,10 +11,12 @@ import com.techproed.schoolmanagementbackendb326.payload.response.business.Lesso
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.repository.businnes.LessonRepository;
 import com.techproed.schoolmanagementbackendb326.service.helper.PageableHelper;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.LifecycleState;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -108,9 +110,9 @@ public class LessonService {
     return lessonMapper.mapLessonToLessonResponse(savedLesson);
   }
 
-  public Set<Lesson> getAllByIdSet(Set<Long> idSet) {
+  public List<Lesson> getAllByIdSet(List<Long> idSet) {
     return idSet.stream()
         .map(this::isLessonExistById)
-        .collect(Collectors.toSet());
+        .collect(Collectors.toList());
   }
 }
