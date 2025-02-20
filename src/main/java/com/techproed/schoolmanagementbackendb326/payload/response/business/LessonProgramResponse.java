@@ -5,7 +5,7 @@ import com.techproed.schoolmanagementbackendb326.entity.concretes.business.Educa
 import com.techproed.schoolmanagementbackendb326.entity.concretes.business.Lesson;
 import com.techproed.schoolmanagementbackendb326.entity.enums.Day;
 import java.time.LocalTime;
-import java.util.Set;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +22,7 @@ public class LessonProgramResponse {
   private Day day;
   private LocalTime startTime;
   private LocalTime stopTime;
-  private Set<Lesson>lessonName;
+  private List<Lesson> lessonName;
   private EducationTerm educationTerm;
 
 }

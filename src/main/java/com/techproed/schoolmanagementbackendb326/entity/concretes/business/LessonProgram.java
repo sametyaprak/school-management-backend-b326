@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.techproed.schoolmanagementbackendb326.entity.concretes.user.User;
 import com.techproed.schoolmanagementbackendb326.entity.enums.Day;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -49,7 +50,7 @@ public class LessonProgram {
       joinColumns = @JoinColumn(name = "lessonprogram_id"),
       inverseJoinColumns = @JoinColumn(name = "lesson_id")
   )
-  private Set<Lesson>lessons;
+  private List<Lesson> lessons;
 
   @ManyToOne
   private EducationTerm educationTerm;
