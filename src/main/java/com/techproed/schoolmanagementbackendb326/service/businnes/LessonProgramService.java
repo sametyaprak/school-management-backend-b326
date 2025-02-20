@@ -12,6 +12,7 @@ import com.techproed.schoolmanagementbackendb326.repository.businnes.LessonProgr
 import com.techproed.schoolmanagementbackendb326.service.validator.TimeValidator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -46,5 +47,13 @@ public class LessonProgramService {
         .httpStatus(HttpStatus.CREATED)
         .message(SuccessMessages.LESSON_PROGRAM_SAVE)
         .build();
+  }
+
+
+  public List<LessonProgramResponse> getAllUnassigned() {
+    return lessonProgramRepository.findByUsers_IdNull()
+        .stream()
+        .map(lessonProgramMapper::mapLessonProgramToLessonProgramResponse)
+        .collect(Collectors.toList());
   }
 }
