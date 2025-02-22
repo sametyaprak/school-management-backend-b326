@@ -36,7 +36,7 @@ public class LessonProgramController {
   @GetMapping("/getAll")
   public List<LessonProgramResponse>getAllLessonPrograms(){
     return lessonProgramService.getAllLessonPrograms();
-    //test
+    //test2
   }
 
   //TODO LEVEN
