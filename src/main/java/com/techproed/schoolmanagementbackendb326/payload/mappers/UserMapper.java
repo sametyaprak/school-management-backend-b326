@@ -4,6 +4,7 @@ import com.techproed.schoolmanagementbackendb326.entity.concretes.user.User;
 import com.techproed.schoolmanagementbackendb326.entity.enums.RoleType;
 import com.techproed.schoolmanagementbackendb326.exception.ResourceNotFoundException;
 import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
+import com.techproed.schoolmanagementbackendb326.payload.request.abstracts.BaseUserRequest;
 import com.techproed.schoolmanagementbackendb326.payload.request.user.UserRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.user.UserResponse;
 import com.techproed.schoolmanagementbackendb326.service.user.UserRoleService;
@@ -26,7 +27,7 @@ public class UserMapper {
    * @param userRole role of user to be created or updated
    * @return User entity
    */
-  public User mapUserRequestToUser(UserRequest userRequest, String userRole) {
+  public User mapUserRequestToUser(BaseUserRequest userRequest, String userRole) {
     User user = User.builder()
         .username(userRequest.getUsername())
         .name(userRequest.getName())

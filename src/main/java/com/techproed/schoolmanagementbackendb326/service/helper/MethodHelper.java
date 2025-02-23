@@ -17,6 +17,7 @@ import java.util.List;
 public class MethodHelper {
 
   private final UserRepository userRepository;
+  private final ContactMessageRepository contactMessageRepository;
 
 
   public User isUserExist(Long id) {
@@ -39,8 +40,13 @@ public class MethodHelper {
     return user;
   }
 
-  //contactapp
-  private final ContactMessageRepository contactMessageRepository;
+  public void checkIsAdvisor(User user) {
+    if(!user.getIsAdvisor()){
+      throw new BadRequestException(String.format(ErrorMessages.NOT_ADVISOR_TEACHER_MESSAGE, user.getUsername()));
+    }
+  }
+
+
 
   public ContactMessage checkContactMessageExistById(
               Long id) {
