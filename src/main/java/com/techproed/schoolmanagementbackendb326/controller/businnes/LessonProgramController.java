@@ -26,49 +26,48 @@ public class LessonProgramController {
 
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @PostMapping("/save")
-  public ResponseMessage<LessonProgramResponse>saveLessonProgram(
-      @RequestBody @Valid LessonProgramRequest lessonProgramRequest) {
+  public ResponseMessage<LessonProgramResponse> saveLessonProgram(
+          @RequestBody @Valid LessonProgramRequest lessonProgramRequest) {
     return lessonProgramService.saveLessonProgram(lessonProgramRequest);
   }
 
-  //TODO KEMAL
-  @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean','Teacher','Student')")
+  @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @GetMapping("/getAll")
-  public List<LessonProgramResponse> getAllLessonPrograms(){
-    //return lessonProgramService.getAllLessonPrograms();
-    return null;
+  public List<LessonProgramResponse> getAllLessonPrograms() {
+    return lessonProgramService.getAllLessonPrograms();
   }
+
 
   //TODO LEVEN
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean','Teacher','Student')")
   @GetMapping("/getLessonProgram/{id}")
-  public LessonProgramResponse getLessonProgramById(@PathVariable Long id){
+  public LessonProgramResponse getLessonProgramById(@PathVariable Long id) {
     //return lessonProgramService.findById(id);
     return null;
   }
 
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean','Teacher','Student')")
   @GetMapping("/getAllUnassigned")
-  public List<LessonProgramResponse>getAllUnassignedLessonPrograms(){
+  public List<LessonProgramResponse> getAllUnassignedLessonPrograms() {
     return lessonProgramService.getAllUnassigned();
   }
 
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean','Teacher','Student')")
   @GetMapping("/getAllAssigned")
-  public List<LessonProgramResponse> getAllAssignedLessonPrograms(){
+  public List<LessonProgramResponse> getAllAssignedLessonPrograms() {
     return lessonProgramService.getAllAssigned();
   }
 
   //TODO ESRA
   @PreAuthorize("hasAnyAuthority('Admin','Teacher')")
   @DeleteMapping("/delete/{id}")
-  public ResponseMessage deleteLessonProgramById(@PathVariable Long id){
+  public ResponseMessage deleteLessonProgramById(@PathVariable Long id) {
     return lessonProgramService.deleteLessonProgramById(id);
   }
 
-
-
-
-
-
 }
+
+
+
+
+
