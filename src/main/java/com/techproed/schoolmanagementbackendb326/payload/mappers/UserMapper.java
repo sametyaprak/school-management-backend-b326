@@ -103,7 +103,7 @@ public class UserMapper {
         .studentNumber(student.getStudentNumber())
         .motherName(student.getMotherName())
         .fatherName(student.getFatherName())
-        .lessonProgramList(new ArrayList<>(student.getLessonProgramList()))
+        .lessonProgramList(student.getLessonProgramList())
         .isActive(student.isActive())
         .build();
   }

@@ -3,6 +3,7 @@ package com.techproed.schoolmanagementbackendb326.service.businnes;
 import com.techproed.schoolmanagementbackendb326.entity.concretes.business.EducationTerm;
 import com.techproed.schoolmanagementbackendb326.entity.concretes.business.Lesson;
 import com.techproed.schoolmanagementbackendb326.entity.concretes.business.LessonProgram;
+import com.techproed.schoolmanagementbackendb326.exception.BadRequestException;
 import com.techproed.schoolmanagementbackendb326.exception.ResourceNotFoundException;
 import com.techproed.schoolmanagementbackendb326.payload.mappers.LessonProgramMapper;
 import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
@@ -81,5 +82,19 @@ public class LessonProgramService {
             .httpStatus(HttpStatus.OK)
             .build();
   }
+
+
+  //TODO each id is not being checked, should be improved
+  public List<LessonProgram>getLessonProgramById(List<Long>lessonIdList) {
+    List<LessonProgram> lessonProgramList = lessonProgramRepository.findAllById(lessonIdList);
+    if(lessonProgramList.isEmpty()){
+      throw new BadRequestException(ErrorMessages.NOT_FOUND_LESSON_PROGRAM_MESSAGE_WITHOUT_ID_INFO);
+    }
+    return lessonProgramList;
+  }
+
+
+
+
 
 }

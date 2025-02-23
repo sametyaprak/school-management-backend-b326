@@ -19,7 +19,6 @@ public interface EducationTermMapper {
 
     EducationTerm mapEducationTermRequestToEducationTerm(EducationTermRequest educationTermRequest);
 
-    //TODO check the usage
     EducationTerm updateEducationTermWithEducationTermUpdateRequest(EducationTermUpdateRequest educationTermRequest, @MappingTarget EducationTerm educationTerm);
 
     EducationTermResponse mapEducationTermToEducationTermResponse( EducationTerm educationTerm);
