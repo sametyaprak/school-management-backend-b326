@@ -5,10 +5,12 @@ import com.techproed.schoolmanagementbackendb326.entity.enums.RoleType;
 import com.techproed.schoolmanagementbackendb326.exception.ResourceNotFoundException;
 import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
 import com.techproed.schoolmanagementbackendb326.payload.request.abstracts.BaseUserRequest;
-import com.techproed.schoolmanagementbackendb326.payload.request.user.UserRequest;
+import com.techproed.schoolmanagementbackendb326.payload.response.user.StudentResponse;
 import com.techproed.schoolmanagementbackendb326.payload.response.user.UserResponse;
 import com.techproed.schoolmanagementbackendb326.service.user.UserRoleService;
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -84,5 +86,28 @@ public class UserMapper {
         .userRole(user.getUserRole().getRoleType().name())
         .build();
   }
+
+
+  public StudentResponse mapUserToStudentResponse(User student) {
+    return StudentResponse.builder()
+        .id(student.getId())
+        .username(student.getUsername())
+        .name(student.getName())
+        .surname(student.getSurname())
+        .birthDay(student.getBirthday())
+        .ssn(student.getSsn())
+        .birthPlace(student.getBirthplace())
+        .phoneNumber(student.getPhoneNumber())
+        .gender(student.getGender())
+        .email(student.getEmail())
+        .studentNumber(student.getStudentNumber())
+        .motherName(student.getMotherName())
+        .fatherName(student.getFatherName())
+        .lessonProgramList(new ArrayList<>(student.getLessonProgramList()))
+        .isActive(student.isActive())
+        .build();
+  }
+
+
 
 }
