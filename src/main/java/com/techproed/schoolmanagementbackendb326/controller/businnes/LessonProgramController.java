@@ -63,8 +63,7 @@ public class LessonProgramController {
   @PreAuthorize("hasAnyAuthority('Admin','Teacher')")
   @DeleteMapping("/delete/{id}")
   public ResponseMessage deleteLessonProgramById(@PathVariable Long id){
-    //return lessonProgramService.deleteLessonProgramById(id);
-    return null;
+    return lessonProgramService.deleteLessonProgramById(id);
   }
 
 

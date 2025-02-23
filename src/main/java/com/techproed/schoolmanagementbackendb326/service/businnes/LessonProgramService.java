@@ -3,7 +3,9 @@ package com.techproed.schoolmanagementbackendb326.service.businnes;
 import com.techproed.schoolmanagementbackendb326.entity.concretes.business.EducationTerm;
 import com.techproed.schoolmanagementbackendb326.entity.concretes.business.Lesson;
 import com.techproed.schoolmanagementbackendb326.entity.concretes.business.LessonProgram;
+import com.techproed.schoolmanagementbackendb326.exception.ResourceNotFoundException;
 import com.techproed.schoolmanagementbackendb326.payload.mappers.LessonProgramMapper;
+import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
 import com.techproed.schoolmanagementbackendb326.payload.messages.SuccessMessages;
 import com.techproed.schoolmanagementbackendb326.payload.request.business.LessonProgramRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.LessonProgramResponse;
@@ -63,4 +65,21 @@ public class LessonProgramService {
         .map(lessonProgramMapper::mapLessonProgramToLessonProgramResponse)
         .collect(Collectors.toList());
   }
+
+
+  // Check if it exists in the database
+  public LessonProgram existById(Long id) {
+    return lessonProgramRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException(ErrorMessages.NOT_FOUND_LESSON_PROGRAM_MESSAGE));
+  }
+
+  public ResponseMessage deleteLessonProgramById(Long id) {
+    existById(id);
+    lessonProgramRepository.deleteById(id);
+    return ResponseMessage.builder()
+            .message(SuccessMessages.LESSON_PROGRAM_DELETE)
+            .httpStatus(HttpStatus.OK)
+            .build();
+  }
+
 }
