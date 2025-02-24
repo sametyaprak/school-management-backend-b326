@@ -92,6 +92,9 @@ public class LessonProgramService {
     }
     return lessonProgramList;
   }
+
+
+
   public List<LessonProgramResponse> getAllLessonPrograms() {
     List<LessonProgram> allLessonPrograms = lessonProgramRepository.findAll();
     return allLessonPrograms.stream().map(lessonProgramMapper::mapLessonProgramToLessonProgramResponse).collect(Collectors.toList());

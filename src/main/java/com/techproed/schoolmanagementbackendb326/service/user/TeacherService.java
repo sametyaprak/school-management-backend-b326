@@ -5,6 +5,7 @@ import com.techproed.schoolmanagementbackendb326.entity.concretes.user.User;
 import com.techproed.schoolmanagementbackendb326.entity.enums.RoleType;
 import com.techproed.schoolmanagementbackendb326.payload.mappers.UserMapper;
 import com.techproed.schoolmanagementbackendb326.payload.messages.SuccessMessages;
+import com.techproed.schoolmanagementbackendb326.payload.request.business.AddLessonProgram;
 import com.techproed.schoolmanagementbackendb326.payload.request.user.TeacherRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.payload.response.user.StudentResponse;
@@ -86,5 +87,22 @@ public class TeacherService {
         .stream()
         .map(userMapper::mapUserToStudentResponse)
         .collect(Collectors.toList());
+  }
+
+  public ResponseMessage<UserResponse> addLessonProgram(@Valid AddLessonProgram lessonProgram) {
+    User teacher = methodHelper.isUserExist(lessonProgram.getTeacherId());
+    methodHelper.checkUserRole(teacher, RoleType.TEACHER);
+    List<LessonProgram>lessonPrograms = lessonProgramService.getLessonProgramById(lessonProgram.getLessonProgramId());
+    // 1,2,3 -> 3,4,5
+    // 1,2,3,3,4,5
+    // TODO prevent duplication of lesson programs here
+    // KERIM
+    teacher.getLessonProgramList().addAll(lessonPrograms);
+    //update with new lesson program list
+    User savedTeacher = userRepository.save(teacher);
+    return ResponseMessage.<UserResponse>builder()
+        .message(SuccessMessages.LESSON_PROGRAM_ADD_TO_TEACHER)
+        .returnBody(userMapper.mapUserToUserResponse(savedTeacher))
+        .build();
   }
 }

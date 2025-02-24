@@ -1,5 +1,6 @@
 package com.techproed.schoolmanagementbackendb326.controller.user;
 
+import com.techproed.schoolmanagementbackendb326.payload.request.business.AddLessonProgram;
 import com.techproed.schoolmanagementbackendb326.payload.request.business.LessonProgramRequest;
 import com.techproed.schoolmanagementbackendb326.payload.request.user.TeacherRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
@@ -55,8 +56,8 @@ public class TeacherController {
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @PostMapping("/addLessonProgram")
   public ResponseMessage<UserResponse>addLessonProgram(
-      @RequestBody @Valid ){
-    return teacherService.addLessonProgram();
+      @RequestBody @Valid AddLessonProgram lessonProgram){
+    return teacherService.addLessonProgram(lessonProgram);
   }
 
 
