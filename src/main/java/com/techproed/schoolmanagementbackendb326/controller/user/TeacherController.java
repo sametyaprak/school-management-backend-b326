@@ -60,6 +60,16 @@ public class TeacherController {
     return teacherService.addLessonProgram(lessonProgram);
   }
 
+  //TODO NESLIHAN
+  //deleteTeacherById
+
+  //TODO BELKIS -> not all users
+  //getAllByTeacher
+
+  //TODO KERIM
+  //getAllTeacherByPage
+
+
 
 
 
