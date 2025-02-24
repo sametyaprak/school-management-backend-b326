@@ -5,12 +5,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @SuperBuilder
+@NoArgsConstructor
 public class StudentUpdateRequest extends AbstractUserRequest {
 
   @NotNull(message = "Please enter mother name")

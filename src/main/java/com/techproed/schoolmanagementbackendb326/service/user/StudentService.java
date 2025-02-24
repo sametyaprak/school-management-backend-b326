@@ -66,11 +66,17 @@ public class StudentService {
     return userRepository.getMaxStudentNumber()+1;
   }
 
-  public ResponseEntity<String> updateStudent(HttpServletRequest httpServletRequest,
+  public String updateStudent(HttpServletRequest httpServletRequest,
       StudentUpdateRequest studentUpdateRequest) {
     String username = (String) httpServletRequest.getAttribute("username");
     User student = methodHelper.loadByUsername(username);
     uniquePropertyValidator.checkUniqueProperty(student, studentUpdateRequest);
-    User userToUpdate = userMapper.mapUserRequestToUser(studentUpdateRequest)
+    User userToUpdate = userMapper.mapStudentUpdateRequestToUser(studentUpdateRequest);
+    userToUpdate.setId(student.getId());
+    userToUpdate.setPassword(student.getPassword());
+    userToUpdate.setBuildIn(student.getBuildIn());
+    userToUpdate.setAdvisorTeacherId(student.getAdvisorTeacherId());
+    userRepository.save(userToUpdate);
+    return SuccessMessages.STUDENT_UPDATE;
   }
 }
