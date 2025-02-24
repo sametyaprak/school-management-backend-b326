@@ -1,6 +1,7 @@
 package com.techproed.schoolmanagementbackendb326.repository.user;
 
 import com.techproed.schoolmanagementbackendb326.entity.concretes.user.User;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,6 +33,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   @Query("select max (u.studentNumber) from User u")
   int getMaxStudentNumber();
+
+  List<User>findByAdvisorTeacherId(Long advisorTeacherId);
 
 
 
