@@ -5,6 +5,7 @@ import com.techproed.schoolmanagementbackendb326.entity.enums.RoleType;
 import com.techproed.schoolmanagementbackendb326.payload.mappers.UserMapper;
 import com.techproed.schoolmanagementbackendb326.payload.messages.SuccessMessages;
 import com.techproed.schoolmanagementbackendb326.payload.request.user.StudentRequest;
+import com.techproed.schoolmanagementbackendb326.payload.request.user.StudentUpdateRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.payload.response.user.StudentResponse;
 import com.techproed.schoolmanagementbackendb326.repository.user.UserRepository;
@@ -12,8 +13,11 @@ import com.techproed.schoolmanagementbackendb326.service.businnes.LessonProgramS
 import com.techproed.schoolmanagementbackendb326.service.helper.MethodHelper;
 import com.techproed.schoolmanagementbackendb326.service.validator.TimeValidator;
 import com.techproed.schoolmanagementbackendb326.service.validator.UniquePropertyValidator;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -60,5 +64,13 @@ public class StudentService {
       return 1000;
     }
     return userRepository.getMaxStudentNumber()+1;
+  }
+
+  public ResponseEntity<String> updateStudent(HttpServletRequest httpServletRequest,
+      StudentUpdateRequest studentUpdateRequest) {
+    String username = (String) httpServletRequest.getAttribute("username");
+    User student = methodHelper.loadByUsername(username);
+    uniquePropertyValidator.checkUniqueProperty(student, studentUpdateRequest);
+    User userToUpdate = userMapper.mapUserRequestToUser(studentUpdateRequest)
   }
 }

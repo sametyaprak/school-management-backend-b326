@@ -1,6 +1,7 @@
 package com.techproed.schoolmanagementbackendb326.controller.user;
 
 import com.techproed.schoolmanagementbackendb326.payload.request.user.StudentRequest;
+import com.techproed.schoolmanagementbackendb326.payload.request.user.StudentUpdateRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.payload.response.user.StudentResponse;
 import com.techproed.schoolmanagementbackendb326.service.user.StudentService;
@@ -24,18 +25,17 @@ public class StudentController {
 
   @PreAuthorize("hasAnyAuthority('Admin')")
   @PostMapping("/save")
-  public ResponseMessage<StudentResponse>save(@RequestBody @Valid StudentRequest studentRequest) {
+  public ResponseMessage<StudentResponse> save(@RequestBody @Valid StudentRequest studentRequest) {
     return studentService.save(studentRequest);
   }
 
   @PreAuthorize("hasAnyAuthority('Student')")
   @PutMapping("/update")
-  public ResponseEntity<String>updateStudent(){
-    HttpServletRequest httpServletRequest,
-
+  public ResponseEntity<String> updateStudent(
+      HttpServletRequest httpServletRequest,
+      @RequestBody @Valid StudentUpdateRequest studentUpdateRequest) {
+    return studentService.updateStudent(httpServletRequest, studentUpdateRequest);
   }
-
-
 
 
 }
