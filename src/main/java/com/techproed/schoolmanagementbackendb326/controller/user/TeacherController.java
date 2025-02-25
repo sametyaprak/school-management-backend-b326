@@ -54,7 +54,7 @@ public class TeacherController {
     return teacherService.addLessonProgram(lessonProgram);
   }
 
-  //TODO NESLIHAN
+
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @DeleteMapping("/deleteTeacherById/{teacherId}")
   public ResponseMessage<UserResponse> deleteTeacherById(@PathVariable Long teacherId){

@@ -97,7 +97,7 @@ public class TeacherService {
     // 1,2,3 -> 3,4,5
     // 1,2,3,3,4,5
     // TODO prevent duplication of lesson programs here
-    // KERIM
+    // KERIM -> move your solution to LessonProgramDuplicationHelper class and call it from here.
     teacher.getLessonProgramList().addAll(lessonPrograms);
     //update with new lesson program list
     User savedTeacher = userRepository.save(teacher);
@@ -120,4 +120,22 @@ public class TeacherService {
             .httpStatus(HttpStatus.OK)
             .build();
   }
+
+  //second solution but this solution hits DB more than the first solution
+  //also fetch data from DB to service layer
+  @Transactional
+  public String deleteTeacherById2(
+      Long teacherId) {
+    User teacher = methodHelper.isUserExist(teacherId);
+    methodHelper.checkUserRole(teacher, RoleType.TEACHER);
+    List<User> students = userRepository.findByAdvisorTeacherId(teacherId);
+    if (!students.isEmpty()) {
+      students.forEach(student->student.setAdvisorTeacherId(null));
+      userRepository.saveAll(students);
+    }
+    userRepository.delete(teacher);
+    return SuccessMessages.ADVISOR_TEACHER_DELETE;
+  }
+
+
 }

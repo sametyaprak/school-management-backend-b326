@@ -1,9 +1,11 @@
 package com.techproed.schoolmanagementbackendb326.service.user;
 
+import com.techproed.schoolmanagementbackendb326.entity.concretes.business.LessonProgram;
 import com.techproed.schoolmanagementbackendb326.entity.concretes.user.User;
 import com.techproed.schoolmanagementbackendb326.entity.enums.RoleType;
 import com.techproed.schoolmanagementbackendb326.payload.mappers.UserMapper;
 import com.techproed.schoolmanagementbackendb326.payload.messages.SuccessMessages;
+import com.techproed.schoolmanagementbackendb326.payload.request.business.AddLessonProgramForStudent;
 import com.techproed.schoolmanagementbackendb326.payload.request.user.StudentRequest;
 import com.techproed.schoolmanagementbackendb326.payload.request.user.StudentUpdateRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
@@ -13,6 +15,7 @@ import com.techproed.schoolmanagementbackendb326.service.businnes.LessonProgramS
 import com.techproed.schoolmanagementbackendb326.service.helper.MethodHelper;
 import com.techproed.schoolmanagementbackendb326.service.validator.TimeValidator;
 import com.techproed.schoolmanagementbackendb326.service.validator.UniquePropertyValidator;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -78,5 +81,40 @@ public class StudentService {
     userToUpdate.setAdvisorTeacherId(student.getAdvisorTeacherId());
     userRepository.save(userToUpdate);
     return SuccessMessages.STUDENT_UPDATE;
+  }
+
+  public ResponseMessage<StudentResponse> updateStudentByManager(Long studentId,
+      StudentRequest studentRequest) {
+    //validate user existence
+    User student = methodHelper.isUserExist(studentId);
+    methodHelper.checkUserRole(student,RoleType.STUDENT);
+    uniquePropertyValidator.checkUniqueProperty(student, studentRequest);
+    User studentToUpdate = userMapper.mapUserRequestToUser(studentRequest, RoleType.STUDENT.getName());
+    //add missing props.
+    studentToUpdate.setId(student.getId());
+    studentToUpdate.setPassword(student.getPassword());
+    studentToUpdate.setBuildIn(student.getBuildIn());
+    studentToUpdate.setAdvisorTeacherId(student.getAdvisorTeacherId());
+    studentToUpdate.setStudentNumber(student.getStudentNumber());
+    return ResponseMessage.<StudentResponse>builder()
+        .message(SuccessMessages.STUDENT_UPDATE)
+        .returnBody(userMapper.mapUserToStudentResponse(userRepository.save(studentToUpdate)))
+        .httpStatus(HttpStatus.OK)
+        .build();
+  }
+
+  public ResponseMessage<StudentResponse> addLessonProgram(HttpServletRequest httpServletRequest,
+      @Valid AddLessonProgramForStudent addLessonProgramForStudent) {
+    String username = (String) httpServletRequest.getAttribute("username");
+    User loggedInUser = methodHelper.loadByUsername(username);
+    //new lesson programs from request
+    List<LessonProgram>lessonProgramFromDto =
+        lessonProgramService.getLessonProgramById(addLessonProgramForStudent.getLessonProgramId());
+    //existing lesson programs of student
+    List<LessonProgram>studentLessonProgram = loggedInUser.getLessonProgramList();
+    //TODO user LessonProgramDuplicationHelper here
+    studentLessonProgram.addAll(lessonProgramFromDto);
+
+
   }
 }

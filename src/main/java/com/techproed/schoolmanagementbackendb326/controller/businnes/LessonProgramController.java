@@ -58,7 +58,7 @@ public class LessonProgramController {
     return lessonProgramService.getAllAssigned();
   }
 
-  //TODO ESRA
+
   @PreAuthorize("hasAnyAuthority('Admin','Teacher')")
   @DeleteMapping("/delete/{id}")
   public ResponseMessage deleteLessonProgramById(@PathVariable Long id) {
