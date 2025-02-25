@@ -5,6 +5,7 @@ import com.techproed.schoolmanagementbackendb326.exception.BadRequestException;
 import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
 import java.time.LocalTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,7 @@ public class TimeValidator {
   }
 
 
-  public void checkDuplicateLessonProgram(Set<LessonProgram> lessonPrograms){
+  public void checkDuplicateLessonProgram(List<LessonProgram> lessonPrograms){
     Set<String>uniqueLessonProgramDays = new HashSet<>();
     Set<LocalTime>existingLessonProgramStartTimes = new HashSet<>();
     Set<LocalTime>existingLessonProgramStopTimes = new HashSet<>();
