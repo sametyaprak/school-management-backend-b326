@@ -114,7 +114,7 @@ public class StudentService {
     List<LessonProgram>studentLessonProgram = loggedInUser.getLessonProgramList();
     //TODO user LessonProgramDuplicationHelper here
     studentLessonProgram.addAll(lessonProgramFromDto);
-
+    return null;
 
   }
 }
