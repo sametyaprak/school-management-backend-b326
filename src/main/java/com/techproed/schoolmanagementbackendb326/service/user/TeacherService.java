@@ -13,6 +13,7 @@ import com.techproed.schoolmanagementbackendb326.payload.response.user.UserRespo
 import com.techproed.schoolmanagementbackendb326.repository.user.UserRepository;
 import com.techproed.schoolmanagementbackendb326.service.businnes.LessonProgramService;
 import com.techproed.schoolmanagementbackendb326.service.helper.MethodHelper;
+import com.techproed.schoolmanagementbackendb326.service.helper.PageableHelper;
 import com.techproed.schoolmanagementbackendb326.service.validator.UniquePropertyValidator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +37,7 @@ public class TeacherService {
   private final MethodHelper methodHelper;
   private final UniquePropertyValidator uniquePropertyValidator;
   private final LessonProgramService lessonProgramService;
+  private final PageableHelper pageableHelper;
 
 
   public ResponseMessage<UserResponse> saveTeacher(TeacherRequest teacherRequest) {
@@ -132,5 +137,13 @@ public class TeacherService {
             .message(SuccessMessages.ADVISOR_TEACHER_DELETE)
             .httpStatus(HttpStatus.OK)
             .build();
+  }
+
+  public Page<UserResponse> getAllTeacherByPage(int page, int size, String sort, String type) {
+
+    Pageable pageable = pageableHelper.getPageable(page, size, sort, type);
+    Page<User> teachers = userRepository.findAllByUserRole(RoleType.TEACHER, pageable);
+
+    return teachers.map(userMapper::mapUserToUserResponse);
   }
 }
