@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -115,6 +114,5 @@ public class StudentService {
     //TODO user LessonProgramDuplicationHelper here
     studentLessonProgram.addAll(lessonProgramFromDto);
     return null;
-
   }
 }
