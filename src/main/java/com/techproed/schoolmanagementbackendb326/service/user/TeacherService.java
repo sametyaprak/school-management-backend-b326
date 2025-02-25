@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -104,5 +105,19 @@ public class TeacherService {
         .message(SuccessMessages.LESSON_PROGRAM_ADD_TO_TEACHER)
         .returnBody(userMapper.mapUserToUserResponse(savedTeacher))
         .build();
+  }
+
+  @Transactional
+  public ResponseMessage<UserResponse> deleteTeacherById(Long teacherId) {
+    User teacher = methodHelper.isUserExist(teacherId);
+    methodHelper.checkUserRole(teacher,RoleType.TEACHER);
+
+    userRepository.removeAdvisorFromStudents(teacherId);
+    userRepository.delete(teacher);
+
+    return ResponseMessage.<UserResponse>builder()
+            .message(SuccessMessages.ADVISOR_TEACHER_DELETE)
+            .httpStatus(HttpStatus.OK)
+            .build();
   }
 }
