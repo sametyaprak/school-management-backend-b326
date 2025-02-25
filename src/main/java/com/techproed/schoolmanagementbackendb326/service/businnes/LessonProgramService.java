@@ -85,9 +85,7 @@ public class LessonProgramService {
 
 
   public List<LessonProgram>getLessonProgramById(List<Long>lessonIdList) {
-    for (Long lessonProgramId : lessonIdList) {
-     existById(lessonProgramId);
-    }
+    lessonIdList.forEach(this::existById);
     List<LessonProgram> lessonProgramList = lessonProgramRepository.findAllById(lessonIdList);
     if(lessonProgramList.isEmpty()){
       throw new BadRequestException(ErrorMessages.NOT_FOUND_LESSON_PROGRAM_MESSAGE_WITHOUT_ID_INFO);
