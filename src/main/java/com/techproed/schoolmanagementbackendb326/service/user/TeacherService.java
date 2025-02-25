@@ -97,14 +97,27 @@ public class TeacherService {
     // 1,2,3 -> 3,4,5
     // 1,2,3,3,4,5
     // TODO prevent duplication of lesson programs here
+
     // KERIM
-    teacher.getLessonProgramList().addAll(lessonPrograms);
+    //1-for döngüsüyle tek tek kontrol etmek yerine stream ile mevcut ıd leri listeye alıp olmayanları filtreleyerek ekleyeim .
+    // 2-performans olarak  for döngüsün de O n^2 iken stream ile O n karmaşıklığın da çalışır.
+
+    List<Long> existingLessonProgramIds = teacher.getLessonProgramList()
+            .stream()
+            .map(LessonProgram::getId)
+            .collect(Collectors.toList());
+    List<LessonProgram> newLessonPrograms = lessonPrograms
+            .stream()
+            .filter(lessonProgram1 -> !existingLessonProgramIds.contains(lessonProgram1.getId()))
+            .collect(Collectors.toList());
+
+    teacher.getLessonProgramList().addAll(newLessonPrograms);
     //update with new lesson program list
     User savedTeacher = userRepository.save(teacher);
     return ResponseMessage.<UserResponse>builder()
-        .message(SuccessMessages.LESSON_PROGRAM_ADD_TO_TEACHER)
-        .returnBody(userMapper.mapUserToUserResponse(savedTeacher))
-        .build();
+            .message(SuccessMessages.LESSON_PROGRAM_ADD_TO_TEACHER)
+            .returnBody(userMapper.mapUserToUserResponse(savedTeacher))
+            .build();
   }
 
   @Transactional
