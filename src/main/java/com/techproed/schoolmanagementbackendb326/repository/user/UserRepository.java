@@ -2,6 +2,8 @@ package com.techproed.schoolmanagementbackendb326.repository.user;
 
 import com.techproed.schoolmanagementbackendb326.entity.concretes.user.User;
 import java.util.List;
+
+import com.techproed.schoolmanagementbackendb326.entity.enums.RoleType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -43,4 +45,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Modifying
   @Query("UPDATE User u SET u.advisorTeacherId = NULL WHERE u.advisorTeacherId = :teacherId")
   void removeAdvisorFromStudents(@Param("teacherId") Long teacherId);
+
+  Page<User> findAllByUserRole(RoleType roleType, Pageable pageable);
 }
