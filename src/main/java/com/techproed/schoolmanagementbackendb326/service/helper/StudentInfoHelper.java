@@ -30,7 +30,7 @@ public class StudentInfoHelper {
     return (midtermExam*midTermExamPercentage)+(finalExam*finalExamPercentage);
   }
 
-  private Note checkLetterGrade(Double average){
+  public Note checkLetterGrade(Double average){
     if(average<50.0) {
       return Note.FF;
     } else if (average<60) {
