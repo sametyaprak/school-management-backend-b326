@@ -2,6 +2,7 @@ package com.techproed.schoolmanagementbackendb326.service.helper;
 
 import com.techproed.schoolmanagementbackendb326.entity.ContactMessage;
 import com.techproed.schoolmanagementbackendb326.entity.concretes.user.User;
+import com.techproed.schoolmanagementbackendb326.entity.enums.RoleType;
 import com.techproed.schoolmanagementbackendb326.exception.BadRequestException;
 import com.techproed.schoolmanagementbackendb326.exception.ResourceNotFoundException;
 import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
@@ -17,6 +18,7 @@ import java.util.List;
 public class MethodHelper {
 
   private final UserRepository userRepository;
+  private final ContactMessageRepository contactMessageRepository;
 
 
   public User isUserExist(Long id) {
@@ -39,8 +41,19 @@ public class MethodHelper {
     return user;
   }
 
-  //contactapp
-  private final ContactMessageRepository contactMessageRepository;
+  public void checkIsAdvisor(User user) {
+    if(!user.getIsAdvisor()){
+      throw new BadRequestException(String.format(ErrorMessages.NOT_ADVISOR_TEACHER_MESSAGE, user.getUsername()));
+    }
+  }
+
+  public void checkUserRole (User user, RoleType roleType) {
+    if(!user.getUserRole().getRoleType().equals(roleType)){
+      throw new BadRequestException(ErrorMessages.NOT_HAVE_EXPECTED_ROLE_USER);
+    }
+  }
+
+
 
   public ContactMessage checkContactMessageExistById(
               Long id) {

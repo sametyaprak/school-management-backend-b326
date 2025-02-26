@@ -2,43 +2,24 @@ package com.techproed.schoolmanagementbackendb326.payload.mappers;
 
 import com.techproed.schoolmanagementbackendb326.entity.concretes.business.EducationTerm;
 import com.techproed.schoolmanagementbackendb326.payload.request.business.EducationTermRequest;
+import com.techproed.schoolmanagementbackendb326.payload.request.business.EducationTermUpdateRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.EducationTermResponse;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValueCheckStrategy;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Component
-public class EducationTermMapper {
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        //with this parameter, MapStruct will always check source properties if they have null value or not.
+        nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
+        //If a source bean property equals null, the target bean property will be ignored and retain its existing value. So, we will be able to perform partial update.
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+public interface EducationTermMapper {
 
-    /**
-     *
-     * @param educationTermRequest DTO from Postman or FE
-     * @return  EducationTerm Entity
-     */
-    public EducationTerm mapEducationTermRequestToEducationTerm(EducationTermRequest educationTermRequest){
-        return EducationTerm.builder()
-                .term(educationTermRequest.getTerm())
-                .startDate(educationTermRequest.getStartDate())
-                .endDate(educationTermRequest.getEndDate())
-                .lastRegistrationDate(educationTermRequest.getLastRegistrationDate())
-                .build();
-    }
+    EducationTerm mapEducationTermRequestToEducationTerm(EducationTermRequest educationTermRequest);
 
-    /**
-     *
-     * @param educationTerm Entity fetched from DB
-     * @return EducationTermResponse DTO
-     */
-    public EducationTermResponse mapEducationTermToEducationTermResponse(EducationTerm educationTerm){
-        return EducationTermResponse.builder()
-                .id(educationTerm.getId())
-                .term(educationTerm.getTerm())
-                .startDate(educationTerm.getStartDate())
-                .endDate(educationTerm.getEndDate())
-                .lastRegistrationDate(educationTerm.getLastRegistrationDate())
-                .build();
-    }
+    EducationTerm updateEducationTermWithEducationTermUpdateRequest(EducationTermUpdateRequest educationTermRequest, @MappingTarget EducationTerm educationTerm);
 
-
-
-
-
+    EducationTermResponse mapEducationTermToEducationTermResponse( EducationTerm educationTerm);
 }

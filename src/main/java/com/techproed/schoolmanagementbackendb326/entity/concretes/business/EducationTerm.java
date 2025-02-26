@@ -1,6 +1,7 @@
 package com.techproed.schoolmanagementbackendb326.entity.concretes.business;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.techproed.schoolmanagementbackendb326.entity.enums.Term;
 import java.time.LocalDate;
 import java.util.List;
@@ -44,6 +45,7 @@ public class EducationTerm {
   @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
   private LocalDate lastRegistrationDate;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "educationTerm",cascade = CascadeType.ALL)
   private List<LessonProgram>lessonProgram;
 
