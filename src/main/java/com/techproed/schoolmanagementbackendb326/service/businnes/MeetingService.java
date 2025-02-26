@@ -32,7 +32,7 @@ public class MeetingService {
     timeValidator.checkStartIsBeforeStop(
         meetingRequest.getStartTime(),
         meetingRequest.getStopTime());
-
+    return null;
 
   }
 }
