@@ -33,32 +33,28 @@ public class StudentService {
   private final TimeValidator timeValidator;
   private final UserRepository userRepository;
 
-  public ResponseMessage<StudentResponse> save(StudentRequest studentRequest) {
+  public ResponseMessage<StudentResponse> save(
+              StudentRequest studentRequest) {
     //does advisor teacher exist in DB
     User advisorTeacher = methodHelper.isUserExist(studentRequest.getAdvisorTeacherId());
     //is he/she really advisor
     methodHelper.checkIsAdvisor(advisorTeacher);
     //validate unique properties
-    uniquePropertyValidator.checkDuplication(
-        studentRequest.getUsername(),
-        studentRequest.getSsn(),
-        studentRequest.getPhoneNumber(),
-        studentRequest.getEmail());
-    //map DTO to entity
-    User student = userMapper.mapUserRequestToUser(studentRequest, RoleType.STUDENT.getName());
+    uniquePropertyValidator.checkDuplication(studentRequest.getUsername(), studentRequest.getSsn(), studentRequest.getPhoneNumber(), studentRequest.getEmail());
+    //map DTO to Entity
+    User student = userMapper.mapStudentRequestToUser(studentRequest);
     //set missing props
     student.setAdvisorTeacherId(advisorTeacher.getId());
     student.setActive(true);
-    student.setBuildIn(false);
-    //every student will have a number starting from 1000.
+    //every student will have a number starting from 1000
     student.setStudentNumber(getLastStudentNumber());
+    //save student
     User savedStudent = userRepository.save(student);
-    return ResponseMessage.<StudentResponse>
-        builder()
-        .returnBody(userMapper.mapUserToStudentResponse(savedStudent))
-        .message(SuccessMessages.STUDENT_SAVE)
-        .httpStatus(HttpStatus.CREATED)
-        .build();
+    return ResponseMessage.<StudentResponse>builder()
+                       .returnBody(userMapper.mapUserToStudentResponse(savedStudent))
+                       .message(SuccessMessages.STUDENT_SAVE)
+                       .httpStatus(HttpStatus.CREATED)
+                       .build();
   }
 
   private int getLastStudentNumber() {
@@ -82,24 +78,30 @@ public class StudentService {
     return SuccessMessages.STUDENT_UPDATE;
   }
 
-  public ResponseMessage<StudentResponse> updateStudentByManager(Long studentId,
-      StudentRequest studentRequest) {
+  public ResponseMessage<StudentResponse> updateStudentByManager(
+              Long studentId,
+              StudentRequest studentRequest) {
     //validate user existence
     User student = methodHelper.isUserExist(studentId);
-    methodHelper.checkUserRole(student,RoleType.STUDENT);
+    methodHelper.checkUserRole(student, RoleType.STUDENT);
     uniquePropertyValidator.checkUniqueProperty(student, studentRequest);
-    User studentToUpdate = userMapper.mapUserRequestToUser(studentRequest, RoleType.STUDENT.getName());
-    //add missing props.
-    studentToUpdate.setId(student.getId());
-    studentToUpdate.setPassword(student.getPassword());
-    studentToUpdate.setBuildIn(student.getBuildIn());
-    studentToUpdate.setAdvisorTeacherId(student.getAdvisorTeacherId());
-    studentToUpdate.setStudentNumber(student.getStudentNumber());
+
+    //validate advisor teacher
+    User advisorTeacher = methodHelper.isUserExist(studentRequest.getAdvisorTeacherId());
+    methodHelper.checkIsAdvisor(advisorTeacher);
+
+    //only necessary fields are updated
+    User userToUpdate = userMapper.mapStudentRequestToUser(studentRequest);
+    userToUpdate.setId(student.getId());
+    userToUpdate.setActive(student.isActive());
+    userToUpdate.setStudentNumber(student.getStudentNumber());
+    userToUpdate.setLessonProgramList(student.getLessonProgramList());
+
     return ResponseMessage.<StudentResponse>builder()
-        .message(SuccessMessages.STUDENT_UPDATE)
-        .returnBody(userMapper.mapUserToStudentResponse(userRepository.save(studentToUpdate)))
-        .httpStatus(HttpStatus.OK)
-        .build();
+                       .message(SuccessMessages.STUDENT_UPDATE)
+                       .returnBody(userMapper.mapUserToStudentResponse(userRepository.save(userToUpdate)))
+                       .httpStatus(HttpStatus.OK)
+                       .build();
   }
 
   public ResponseMessage<StudentResponse> addLessonProgram(HttpServletRequest httpServletRequest,
