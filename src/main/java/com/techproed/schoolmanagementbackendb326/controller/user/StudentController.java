@@ -51,13 +51,12 @@ public class StudentController {
     return studentService.updateStudentByManager(studentId,studentRequest);
   }
 
-  //TODO Ertugrul
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @GetMapping("/changeStatus")
   public ResponseMessage changeStatus(@RequestParam Long id,
-      @RequestParam boolean status){
-    //return studentService.changeStatus(id,status);
-    return null;
+                                      @RequestParam boolean status){
+    return studentService.changeStatus(id,status);
+
   }
 
   @PreAuthorize("hasAnyAuthority('Student')")
