@@ -124,9 +124,11 @@ public class StudentService {
 
     student.setActive(status);
 
+    User updateStudentUser = userRepository.save(student);
+
     return ResponseMessage.<StudentResponse>builder()
             .message(SuccessMessages.STUDENT_UPDATE)
-            .returnBody(userMapper.mapUserToStudentResponse(student))
+            .returnBody(userMapper.mapUserToStudentResponse(updateStudentUser))
             .httpStatus(HttpStatus.OK)
             .build();
 
