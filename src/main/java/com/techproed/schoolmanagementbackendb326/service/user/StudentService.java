@@ -45,11 +45,10 @@ public class StudentService {
         studentRequest.getPhoneNumber(),
         studentRequest.getEmail());
     //map DTO to entity
-    User student = userMapper.mapUserRequestToUser(studentRequest, RoleType.STUDENT.getName());
+    User student = userMapper.mapStudentRequestToUser(studentRequest);
     //set missing props
     student.setAdvisorTeacherId(advisorTeacher.getId());
     student.setActive(true);
-    student.setBuildIn(false);
     //every student will have a number starting from 1000.
     student.setStudentNumber(getLastStudentNumber());
     User savedStudent = userRepository.save(student);
@@ -88,13 +87,15 @@ public class StudentService {
     User student = methodHelper.isUserExist(studentId);
     methodHelper.checkUserRole(student,RoleType.STUDENT);
     uniquePropertyValidator.checkUniqueProperty(student, studentRequest);
-    User studentToUpdate = userMapper.mapUserRequestToUser(studentRequest, RoleType.STUDENT.getName());
+    //validate advisor teacher
+    User advisorTeacher = methodHelper.isUserExist(studentRequest.getAdvisorTeacherId());
+    methodHelper.checkIsAdvisor(advisorTeacher);
+    User studentToUpdate = userMapper.mapStudentRequestToUser(studentRequest);
     //add missing props.
     studentToUpdate.setId(student.getId());
-    studentToUpdate.setPassword(student.getPassword());
-    studentToUpdate.setBuildIn(student.getBuildIn());
-    studentToUpdate.setAdvisorTeacherId(student.getAdvisorTeacherId());
+    studentToUpdate.setActive(student.isActive());
     studentToUpdate.setStudentNumber(student.getStudentNumber());
+    studentToUpdate.setLessonProgramList(student.getLessonProgramList());
     return ResponseMessage.<StudentResponse>builder()
         .message(SuccessMessages.STUDENT_UPDATE)
         .returnBody(userMapper.mapUserToStudentResponse(userRepository.save(studentToUpdate)))
