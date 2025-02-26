@@ -60,4 +60,7 @@ public class ErrorMessages {
   public static final String NOT_FOUND_MESSAGE_BETWEEN_TIMES = "Message not Found between Times : %s and %s";
   public static final String NOT_FOUND_MESSAGE_BY_SUBJECT = "Message not Found by Subject : %s";
 
+  //studentInfo
+  public static final String ALREADY_CREATED_STUDENT_INFO_FOR_LESSON = "Error: %s Student info already created";
+
 }
