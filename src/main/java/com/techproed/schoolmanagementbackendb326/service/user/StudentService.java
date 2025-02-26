@@ -116,4 +116,22 @@ public class StudentService {
     studentLessonProgram.addAll(lessonProgramFromDto);
     return null;
   }
+
+  public ResponseMessage changeStatus(Long id, boolean status) {
+
+    User student = methodHelper.isUserExist(id);
+
+    methodHelper.checkUserRole(student,RoleType.STUDENT);
+
+    student.setActive(status);
+
+    User updateStudentUser = userRepository.save(student);
+
+    return ResponseMessage.<StudentResponse>builder()
+            .message(SuccessMessages.STUDENT_UPDATE)
+            .returnBody(userMapper.mapUserToStudentResponse(updateStudentUser))
+            .httpStatus(HttpStatus.OK)
+            .build();
+
+  }
 }
