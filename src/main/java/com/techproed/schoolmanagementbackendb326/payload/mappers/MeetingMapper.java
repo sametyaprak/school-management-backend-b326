@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MeetingMapper {
 
-  public Meet mapMeetingToMeet(MeetingRequest meetingRequest){
+  public Meet mapMeetingRequestToMeet(MeetingRequest meetingRequest){
     return Meet.builder()
         .date(meetingRequest.getDate())
         .startTime(meetingRequest.getStartTime())
