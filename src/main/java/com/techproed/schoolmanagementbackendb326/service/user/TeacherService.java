@@ -12,6 +12,7 @@ import com.techproed.schoolmanagementbackendb326.payload.response.user.StudentRe
 import com.techproed.schoolmanagementbackendb326.payload.response.user.UserResponse;
 import com.techproed.schoolmanagementbackendb326.repository.user.UserRepository;
 import com.techproed.schoolmanagementbackendb326.service.businnes.LessonProgramService;
+import com.techproed.schoolmanagementbackendb326.service.helper.LessonProgramDuplicationHelper;
 import com.techproed.schoolmanagementbackendb326.service.helper.MethodHelper;
 import com.techproed.schoolmanagementbackendb326.service.validator.UniquePropertyValidator;
 import java.util.List;
@@ -33,7 +34,7 @@ public class TeacherService {
   private final MethodHelper methodHelper;
   private final UniquePropertyValidator uniquePropertyValidator;
   private final LessonProgramService lessonProgramService;
-
+  private final LessonProgramDuplicationHelper lessonProgramDuplicationHelper;
 
   public ResponseMessage<UserResponse> saveTeacher(TeacherRequest teacherRequest) {
     List<LessonProgram>lessonProgramList =
@@ -98,7 +99,12 @@ public class TeacherService {
     // 1,2,3,3,4,5
     // TODO prevent duplication of lesson programs here
     // KERIM -> move your solution to LessonProgramDuplicationHelper class and call it from here.
-    teacher.getLessonProgramList().addAll(lessonPrograms);
+
+    List<LessonProgram> existingLessonPrograms = teacher.getLessonProgramList();
+    List<LessonProgram> newLessonPrograms = lessonProgramDuplicationHelper.removeDuplicates(existingLessonPrograms,lessonPrograms);
+
+
+    teacher.getLessonProgramList().addAll(newLessonPrograms);
     //update with new lesson program list
     User savedTeacher = userRepository.save(teacher);
     return ResponseMessage.<UserResponse>builder()
