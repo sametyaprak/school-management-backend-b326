@@ -59,7 +59,6 @@ public class MeetingController {
     //return meetingService.deleteById(meetingId);
     return null;
   }
-
   //TODO neslihan
   @PreAuthorize("hasAnyAuthority('Teacher')")
   @GetMapping("/getAllByPageTeacher")
