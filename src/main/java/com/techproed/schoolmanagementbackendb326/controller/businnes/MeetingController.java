@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,16 +59,14 @@ public class MeetingController {
     //return meetingService.deleteById(meetingId);
     return null;
   }
-
   //TODO neslihan
   @PreAuthorize("hasAnyAuthority('Teacher')")
   @GetMapping("/getAllByPageTeacher")
-  public Page<MeetingResponse> getAllByPageTeacher(
-      HttpServletRequest httpServletRequest,
-      @RequestParam(value = "page",defaultValue = "0") int page,
-      @RequestParam(value = "size",defaultValue = "10") int size){
-    //return meetingService.getAllByPageTeacher(page,size,httpServletRequest);
-    return null;
+  public ResponseEntity<ResponseMessage<Page<MeetingResponse>>> getAllByPageTeacher(
+          HttpServletRequest httpServletRequest,
+          @RequestParam(value = "page",defaultValue = "0") int page,
+          @RequestParam(value = "size",defaultValue = "10") int size){
+    return meetingService.getAllByPageTeacher(page,size,httpServletRequest);
   }
 
   //TODO edip
