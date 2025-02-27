@@ -44,7 +44,8 @@ public class StudentInfoService {
     //validate and fetch lesson
     Lesson lesson = lessonService.isLessonExistById(studentInfoRequest.getLessonId());
     //validate and fetch education term
-    EducationTerm educationTerm = educationTermService.isEducationTermExist(studentInfoRequest.getEducationTermId());
+    EducationTerm educationTerm = educationTermService.isEducationTermExist(
+        studentInfoRequest.getEducationTermId());
     //student should have only one student info for a lesson
     studentInfoHelper.validateLessonDuplication(studentInfoRequest.getStudentId(),
         lesson.getLessonName());
@@ -54,7 +55,8 @@ public class StudentInfoService {
     StudentInfo studentInfo = studentInfoMapper.mapStudentInfoRequestToStudentInfo(
         studentInfoRequest,
         note,
-        studentInfoHelper.calculateAverageScore(studentInfoRequest.getMidtermExam(), studentInfoRequest.getFinalExam()));
+        studentInfoHelper.calculateAverageScore(studentInfoRequest.getMidtermExam(),
+            studentInfoRequest.getFinalExam()));
     //set missing props.
     studentInfo.setStudent(student);
     studentInfo.setLesson(lesson);
@@ -72,5 +74,24 @@ public class StudentInfoService {
     Pageable pageable = pageableHelper.getPageable(page, size, sort, type);
     Page<StudentInfo> studentInfos = studentInfoRepository.findAll(pageable);
     return studentInfos.map(studentInfoMapper::mapStudentInfoToStudentInfoResponse);
+  }
+
+  public Page<StudentInfoResponse> findByTeacherOrStudentByPage(HttpServletRequest servletRequest,
+      int page, int size) {
+    //preparing the pageable
+    Pageable pageable = pageableHelper.getPageableByPageAndSize(page, size);
+    //finding out who logged in
+    String username = (String) servletRequest.getAttribute("username");
+    User loggedInUser = methodHelper.loadByUsername(username);
+    //checking if this is a Teacher or Student.
+    //Since this endpoint is accessible by only Teacher or Student,
+    //no need to check for other roles
+    //used ternary for assigning
+    Page<StudentInfo> studentInfoPage =
+        (loggedInUser.getUserRole().getRoleType().getName().equals(RoleType.TEACHER.getName())) ?
+            studentInfoRepository.findAllByTeacher_Id(loggedInUser.getId(), pageable)
+            : studentInfoRepository.findAllByStudent_Id(loggedInUser.getId(), pageable);
+
+    return studentInfoPage.map(studentInfoMapper::mapStudentInfoToStudentInfoResponse);
   }
 }
