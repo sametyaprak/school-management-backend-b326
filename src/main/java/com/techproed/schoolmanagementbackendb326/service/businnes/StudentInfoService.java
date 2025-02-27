@@ -63,4 +63,9 @@ public class StudentInfoService {
         .returnBody(studentInfoMapper.mapStudentInfoToStudentInfoResponse(savedStudentInfo))
         .build();
   }
+
+  public StudentInfoResponse findById(Long studentInfoId) {
+    return studentInfoMapper.mapStudentInfoToStudentInfoResponse(
+            studentInfoHelper.isStudentInfoExistById(studentInfoId));
+  }
 }

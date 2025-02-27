@@ -1,7 +1,9 @@
 package com.techproed.schoolmanagementbackendb326.service.helper;
 
+import com.techproed.schoolmanagementbackendb326.entity.concretes.business.StudentInfo;
 import com.techproed.schoolmanagementbackendb326.entity.enums.Note;
 import com.techproed.schoolmanagementbackendb326.exception.ConflictException;
+import com.techproed.schoolmanagementbackendb326.exception.ResourceNotFoundException;
 import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
 import com.techproed.schoolmanagementbackendb326.repository.businnes.StudentInfoRepository;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +51,10 @@ public class StudentInfoHelper {
   }
 
 
+  public StudentInfo isStudentInfoExistById(Long id){
+    return studentInfoRepository.findById(id)
+            .orElseThrow(()->new ResourceNotFoundException(String.format(ErrorMessages.STUDENT_INFO_NOT_FOUND,id)));
+  }
 
 
 
