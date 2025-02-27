@@ -59,8 +59,7 @@ public class StudentController {
 
   }
 
-  @PreAuthorize("hasAnyAuthority('Student')")
-  @GetMapping("/addLessonProgram")
+
   public ResponseMessage<StudentResponse>addLessonProgram(
       HttpServletRequest httpServletRequest,
       @RequestBody @Valid AddLessonProgramForStudent addLessonProgramForStudent){

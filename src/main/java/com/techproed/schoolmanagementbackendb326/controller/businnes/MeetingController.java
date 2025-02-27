@@ -7,6 +7,8 @@ import com.techproed.schoolmanagementbackendb326.service.businnes.MeetingService
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -59,7 +61,7 @@ public class MeetingController {
     //return meetingService.deleteById(meetingId);
     return null;
   }
-  //TODO neslihan
+
   @PreAuthorize("hasAnyAuthority('Teacher')")
   @GetMapping("/getAllByPageTeacher")
   public ResponseEntity<ResponseMessage<Page<MeetingResponse>>> getAllByPageTeacher(
