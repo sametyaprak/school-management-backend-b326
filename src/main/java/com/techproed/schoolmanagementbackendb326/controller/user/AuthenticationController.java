@@ -30,6 +30,8 @@ public class AuthenticationController {
     return ResponseEntity.ok(authenticationService.authenticate(loginRequest));
   }
 
+
+  @Deprecated(since = "2025-10-10",forRemoval = true )
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean','Teacher','Student')")
   @PostMapping("/changePassword")
   public ResponseEntity<String>updatePassword(
