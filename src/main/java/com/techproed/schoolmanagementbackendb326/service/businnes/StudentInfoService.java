@@ -75,6 +75,12 @@ public class StudentInfoService {
   }
 
 
+  public StudentInfoResponse findById(Long studentInfoId) {
+    return studentInfoMapper.mapStudentInfoToStudentInfoResponse(
+            studentInfoHelper.isStudentInfoExistById(studentInfoId));
+  }
+
+
     public ResponseMessage<StudentInfoResponse> updateStudentInfo(@Valid StudentInfoUpdateRequest studentInfoUpdateRequest, Long id) {
       // 1. Find the existing StudentInfo record
       StudentInfo existingStudentInfo = studentInfoRepository.findById(id)
@@ -156,5 +162,6 @@ public class StudentInfoService {
 
   }
   
+
 
 }
