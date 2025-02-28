@@ -89,8 +89,7 @@ public class StudentInfoController {
       HttpServletRequest servletRequest,
       @RequestParam(value = "page", defaultValue = "0") int page,
       @RequestParam(value = "size", defaultValue = "10") int size){
-    //return studentInfoService.findByTeacherOrStudentByPage(servletRequest,page,size);
-    return null;
+    return studentInfoService.findByTeacherOrStudentByPage(servletRequest,page,size);
   }
 
 
