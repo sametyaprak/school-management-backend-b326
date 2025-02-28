@@ -54,12 +54,10 @@ public class StudentInfoController {
     return null;
   }
 
-  //TODO FURKAN
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @GetMapping("/findByStudentId/{studentId}")
-  public List<StudentInfoResponse> findByStudentInfoByStudentId(@PathVariable Long studentId){
-    //return studentInfoService.findByStudentInfoByStudentId(studentId);
-    return null;
+  public List<StudentInfoResponse> findStudentInfoByStudentId(@PathVariable Long studentId){
+    return studentInfoService.findStudentInfoByStudentId(studentId);
   }
 
   //TODO yasar

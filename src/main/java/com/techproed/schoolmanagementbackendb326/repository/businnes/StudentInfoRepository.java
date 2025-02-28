@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface StudentInfoRepository extends JpaRepository<StudentInfo, Long> {
 
@@ -13,8 +15,6 @@ public interface StudentInfoRepository extends JpaRepository<StudentInfo, Long> 
   boolean isStudentInfoExistForLesson(Long studentId,String  lessonName);
 
 
-
-
-
-
+	List<StudentInfo> findByStudent_Id(
+				Long studentİd);
 }
