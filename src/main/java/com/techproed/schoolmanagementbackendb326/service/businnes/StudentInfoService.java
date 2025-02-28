@@ -17,7 +17,6 @@ import com.techproed.schoolmanagementbackendb326.service.helper.PageableHelper;
 import com.techproed.schoolmanagementbackendb326.service.helper.StudentInfoHelper;
 import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -72,6 +71,8 @@ public class StudentInfoService {
         .build();
   }
 
+
+  
   public Page<StudentInfoResponse> findByTeacherOrStudentByPage(HttpServletRequest servletRequest,
       int page, int size) {
     //preparing the pageable
@@ -98,6 +99,16 @@ public class StudentInfoService {
             : studentInfoRepository.findAllByStudent_Id(loggedInUser.getId(), pageable);*/
 
     return studentInfoPage.map(studentInfoMapper::mapStudentInfoToStudentInfoResponse);
+    
+  }
+
+  
+  public Page<StudentInfoResponse> findStudentInfoByPage(int page, int size, String sort,
+      String type) {
+    Pageable pageable = pageableHelper.getPageable(page, size, sort, type);
+    Page<StudentInfo> studentInfos = studentInfoRepository.findAll(pageable);
+    return studentInfos.map(studentInfoMapper::mapStudentInfoToStudentInfoResponse);
 
   }
+  
 }
