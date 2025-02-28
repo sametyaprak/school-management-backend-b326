@@ -54,12 +54,11 @@ public class MeetingController {
   }
 
 
-  //TODO furkan
+
   @PreAuthorize("hasAnyAuthority('Admin','Teacher')")
   @DeleteMapping("/delete/{meetingId}")
-  public ResponseMessage deleteById(@PathVariable Long meetingId){
-    //return meetingService.deleteById(meetingId);
-    return null;
+  public ResponseEntity<String> deleteById(@PathVariable Long meetingId ,HttpServletRequest httpServletRequest){
+    return ResponseEntity.ok(meetingService.deleteById(meetingId, httpServletRequest));
   }
 
   @PreAuthorize("hasAnyAuthority('Teacher')")
