@@ -64,14 +64,13 @@ public class StudentInfoController {
 
   //TODO yasar
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
-  @GetMapping("/findStundentInfoByPage")
+  @GetMapping("/findStudentInfoByPage")
   public Page<StudentInfoResponse> findStundentInfoByPage(
       @RequestParam(value = "page", defaultValue = "0") int page,
       @RequestParam(value = "size", defaultValue = "10") int size,
       @RequestParam(value = "sort", defaultValue = "absentee") String sort,
       @RequestParam(value = "type", defaultValue = "desc") String type) {
-    //return studentInfoService.findStundentInfoByPage(page, size, sort, type);
-    return null;
+    return studentInfoService.findStudentInfoByPage(page, size, sort, type);
   }
 
   //TODO NESLI
@@ -89,8 +88,7 @@ public class StudentInfoController {
       HttpServletRequest servletRequest,
       @RequestParam(value = "page", defaultValue = "0") int page,
       @RequestParam(value = "size", defaultValue = "10") int size){
-    //return studentInfoService.findByTeacherOrStudentByPage(servletRequest,page,size);
-    return null;
+    return studentInfoService.findByTeacherOrStudentByPage(servletRequest,page,size);
   }
 
 
