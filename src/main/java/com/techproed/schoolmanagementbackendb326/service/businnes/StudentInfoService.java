@@ -6,9 +6,12 @@ import com.techproed.schoolmanagementbackendb326.entity.concretes.business.Stude
 import com.techproed.schoolmanagementbackendb326.entity.concretes.user.User;
 import com.techproed.schoolmanagementbackendb326.entity.enums.Note;
 import com.techproed.schoolmanagementbackendb326.entity.enums.RoleType;
+import com.techproed.schoolmanagementbackendb326.exception.ResourceNotFoundException;
 import com.techproed.schoolmanagementbackendb326.payload.mappers.StudentInfoMapper;
+import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
 import com.techproed.schoolmanagementbackendb326.payload.messages.SuccessMessages;
 import com.techproed.schoolmanagementbackendb326.payload.request.business.StudentInfoRequest;
+import com.techproed.schoolmanagementbackendb326.payload.request.business.StudentInfoUpdateRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.StudentInfoResponse;
 import com.techproed.schoolmanagementbackendb326.repository.businnes.StudentInfoRepository;
@@ -72,6 +75,48 @@ public class StudentInfoService {
   }
 
 
+    public ResponseMessage<StudentInfoResponse> updateStudentInfo(@Valid StudentInfoUpdateRequest studentInfoUpdateRequest, Long id) {
+      // 1. Find the existing StudentInfo record
+      StudentInfo existingStudentInfo = studentInfoRepository.findById(id)
+              .orElseThrow(() -> new ResourceNotFoundException(ErrorMessages.STUDENT_INFO_NOT_FOUND));
+
+      // 2. Validate the student
+      User student = methodHelper.isUserExist(studentInfoUpdateRequest.getStudentId());
+      methodHelper.checkUserRole(student, RoleType.STUDENT);
+
+      // 3. Validate the lesson and education term
+      Lesson lesson = lessonService.isLessonExistById(studentInfoUpdateRequest.getLessonId());
+      EducationTerm educationTerm = educationTermService.isEducationTermExist(studentInfoUpdateRequest.getEducationTermId());
+
+      // 4. Calculate the new average score and determine the letter grade
+      double averageScore = studentInfoHelper.calculateAverageScore(studentInfoUpdateRequest.getMidtermExam(), studentInfoUpdateRequest.getFinalExam());
+      Note updatedNote = studentInfoHelper.checkLetterGrade(averageScore);
+
+      // 5. Update using the mapper
+      StudentInfo updatedStudentInfo = studentInfoMapper.mapStudentInfoRequestToStudentInfo(
+              studentInfoUpdateRequest,
+              updatedNote,
+              averageScore
+      );
+
+      // 6. Set missing properties
+      updatedStudentInfo.setId(existingStudentInfo.getId()); // Keep the existing ID
+      updatedStudentInfo.setStudent(student);
+      updatedStudentInfo.setLesson(lesson);
+      updatedStudentInfo.setEducationTerm(educationTerm);
+      updatedStudentInfo.setTeacher(existingStudentInfo.getTeacher()); // Do not change the teacher
+
+      // 7. Save the updated StudentInfo record
+      StudentInfo savedStudentInfo = studentInfoRepository.save(updatedStudentInfo);
+
+      // 8. Create a response using the mapper and return it
+      return ResponseMessage.<StudentInfoResponse>builder()
+              .message(SuccessMessages.STUDENT_INFO_UPDATE)
+              .returnBody(studentInfoMapper.mapStudentInfoToStudentInfoResponse(savedStudentInfo))
+              .build();
+  }
+
+
   
   public Page<StudentInfoResponse> findByTeacherOrStudentByPage(HttpServletRequest servletRequest,
       int page, int size) {
@@ -111,4 +156,5 @@ public class StudentInfoService {
 
   }
   
+
 }
