@@ -13,10 +13,12 @@ import com.techproed.schoolmanagementbackendb326.payload.response.business.Respo
 import com.techproed.schoolmanagementbackendb326.payload.response.business.StudentInfoResponse;
 import com.techproed.schoolmanagementbackendb326.repository.businnes.StudentInfoRepository;
 import com.techproed.schoolmanagementbackendb326.service.helper.MethodHelper;
+import com.techproed.schoolmanagementbackendb326.service.helper.PageableHelper;
 import com.techproed.schoolmanagementbackendb326.service.helper.StudentInfoHelper;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,6 +31,7 @@ public class StudentInfoService {
   private final EducationTermService educationTermService;
   private final StudentInfoHelper studentInfoHelper;
   private final StudentInfoMapper studentInfoMapper;
+  private final PageableHelper pageableHelper;
 
   public ResponseMessage<StudentInfoResponse> saveStudentInfo(HttpServletRequest httpServletRequest,
       StudentInfoRequest studentInfoRequest) {
@@ -62,5 +65,12 @@ public class StudentInfoService {
         .message(SuccessMessages.STUDENT_INFO_SAVE)
         .returnBody(studentInfoMapper.mapStudentInfoToStudentInfoResponse(savedStudentInfo))
         .build();
+  }
+
+  public Page<StudentInfoResponse> findStudentInfoByPage(int page, int size, String sort,
+      String type) {
+    Pageable pageable = pageableHelper.getPageable(page, size, sort, type);
+    Page<StudentInfo> studentInfos = studentInfoRepository.findAll(pageable);
+    return studentInfos.map(studentInfoMapper::mapStudentInfoToStudentInfoResponse);
   }
 }
