@@ -15,9 +15,12 @@ import com.techproed.schoolmanagementbackendb326.repository.businnes.StudentInfo
 import com.techproed.schoolmanagementbackendb326.service.helper.MethodHelper;
 import com.techproed.schoolmanagementbackendb326.service.helper.StudentInfoHelper;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -63,4 +66,14 @@ public class StudentInfoService {
         .returnBody(studentInfoMapper.mapStudentInfoToStudentInfoResponse(savedStudentInfo))
         .build();
   }
+
+	public List<StudentInfoResponse> findStudentInfoByStudentId(
+				Long studentId) {
+        User student = methodHelper.isUserExist(studentId);
+        methodHelper.checkUserRole(student, RoleType.STUDENT);
+        List<StudentInfo> studentInfoList = studentInfoRepository.findByStudent_Id(studentId);
+        return  studentInfoList.stream()
+                            .map(studentInfoMapper::mapStudentInfoToStudentInfoResponse)
+                            .collect(Collectors.toList());
+	}
 }
