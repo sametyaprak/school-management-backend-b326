@@ -62,5 +62,6 @@ public class ErrorMessages {
 
   //studentInfo
   public static final String ALREADY_CREATED_STUDENT_INFO_FOR_LESSON = "Error: %s Student info already created";
+  public static final String NOT_FOUND_STUDENT_INFO_FOR_USER = "Error: Student Info with %s id %d not found";
 
 }

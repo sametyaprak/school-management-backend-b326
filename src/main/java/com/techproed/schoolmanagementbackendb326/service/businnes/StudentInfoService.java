@@ -6,7 +6,9 @@ import com.techproed.schoolmanagementbackendb326.entity.concretes.business.Stude
 import com.techproed.schoolmanagementbackendb326.entity.concretes.user.User;
 import com.techproed.schoolmanagementbackendb326.entity.enums.Note;
 import com.techproed.schoolmanagementbackendb326.entity.enums.RoleType;
+import com.techproed.schoolmanagementbackendb326.exception.ResourceNotFoundException;
 import com.techproed.schoolmanagementbackendb326.payload.mappers.StudentInfoMapper;
+import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
 import com.techproed.schoolmanagementbackendb326.payload.messages.SuccessMessages;
 import com.techproed.schoolmanagementbackendb326.payload.request.business.StudentInfoRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
@@ -91,6 +93,13 @@ public class StudentInfoService {
         (loggedInUser.getUserRole().getRoleType().getName().equals(RoleType.TEACHER.getName())) ?
             studentInfoRepository.findAllByTeacher_Id(loggedInUser.getId(), pageable)
             : studentInfoRepository.findAllByStudent_Id(loggedInUser.getId(), pageable);
+
+    //if no student info found for the user
+    if (studentInfoPage.isEmpty()) {
+      throw new ResourceNotFoundException(
+          String.format(ErrorMessages.NOT_FOUND_STUDENT_INFO_FOR_USER,
+              loggedInUser.getUserRole().getRoleType().getName(), loggedInUser.getId()));
+    }
 
     return studentInfoPage.map(studentInfoMapper::mapStudentInfoToStudentInfoResponse);
   }
