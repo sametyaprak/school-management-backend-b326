@@ -1,6 +1,7 @@
 package com.techproed.schoolmanagementbackendb326.controller.businnes;
 
 import com.techproed.schoolmanagementbackendb326.payload.request.business.StudentInfoRequest;
+import com.techproed.schoolmanagementbackendb326.payload.request.business.StudentInfoUpdateRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.StudentInfoResponse;
 import com.techproed.schoolmanagementbackendb326.service.businnes.StudentInfoService;
@@ -40,10 +41,9 @@ public class StudentInfoController {
   @PreAuthorize("hasAnyAuthority('Admin','Teacher')")
   @PutMapping("/update/{id}")
   public ResponseMessage<StudentInfoResponse>updateStudentInfo(
-      //@RequestBody @Valid StudentInfoUpdateRequest studentInfoUpdateRequest,
+      @RequestBody @Valid StudentInfoUpdateRequest studentInfoUpdateRequest,
       @PathVariable Long id){
-    //return studentInfoService.updateStudentInfo(studentInfoUpdateRequest,id);
-    return null;
+    return studentInfoService.updateStudentInfo(studentInfoUpdateRequest,id);
   }
 
   //TODO ertugrul
