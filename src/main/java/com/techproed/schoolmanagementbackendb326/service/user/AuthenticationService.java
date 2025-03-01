@@ -22,6 +22,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -63,13 +65,23 @@ public class AuthenticationService {
     String username = (String) httpServletRequest.getAttribute("username");
     User user = methodHelper.loadByUsername(username);
     methodHelper.checkBuildIn(user);
-    //validate new password does not match to old password
-    if(passwordEncoder.matches(updatePasswordRequest.getNewPassword(), user.getPassword())) {
-      throw new BadRequestException(ErrorMessages.PASSWORD_SHOULD_NOT_MATCHED);
+    // Validate that the new password does not match any of the user's previous passwords
+    String newPassword= updatePasswordRequest.getNewPassword();
+    for (String oldPassword : user.getPasswordHistory()){
+      if (passwordEncoder.matches(newPassword,oldPassword)){
+        throw new BadRequestException(ErrorMessages.PASSWORD_SHOULD_NOT_MATCHED_HISTORY);
+      }
     }
-    //user password can be updated via custom query
-    //Or password can be set and user will be saved to DB again
-    user.setPassword(passwordEncoder.encode(updatePasswordRequest.getNewPassword()));
+
+    String hashedNewPassword=passwordEncoder.encode(newPassword);
+    List<String> passwordHistory=user.getPasswordHistory();
+
+    if (passwordHistory.size()>=3){
+      passwordHistory.remove(0);
+    }
+
+    passwordHistory.add(hashedNewPassword);
+    user.setPassword(hashedNewPassword);
     userRepository.save(user);
   }
 }
