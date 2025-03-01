@@ -20,6 +20,8 @@ import com.techproed.schoolmanagementbackendb326.service.helper.PageableHelper;
 import com.techproed.schoolmanagementbackendb326.service.helper.StudentInfoHelper;
 import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -161,7 +163,16 @@ public class StudentInfoService {
     return studentInfos.map(studentInfoMapper::mapStudentInfoToStudentInfoResponse);
 
   }
-  
 
 
+  public ResponseMessage deleteStudentInfoById(Long id) {
+
+    StudentInfo studentInfo = studentInfoHelper.isStudentInfoExistById(id);
+
+    studentInfoRepository.delete(studentInfo);
+
+    return ResponseMessage.builder()
+            .message(SuccessMessages.STUDENT_INFO_DELETE)
+            .build();
+  }
 }

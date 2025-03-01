@@ -47,12 +47,12 @@ public class StudentInfoController {
     return studentInfoService.updateStudentInfo(studentInfoUpdateRequest,id);
   }
 
-  //TODO ertugrul
+
   @PreAuthorize("hasAnyAuthority('Admin','Teacher')")
   @DeleteMapping("/delete/{id}")
   public ResponseMessage delete(@PathVariable Long id){
-    //return studentInfoService.deleteStudentInfoById(id);
-    return null;
+    return studentInfoService.deleteStudentInfoById(id);
+
   }
 
   //TODO FURKAN
