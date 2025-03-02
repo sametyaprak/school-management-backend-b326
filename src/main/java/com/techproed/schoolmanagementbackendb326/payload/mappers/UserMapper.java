@@ -10,6 +10,9 @@ import com.techproed.schoolmanagementbackendb326.payload.request.user.StudentUpd
 import com.techproed.schoolmanagementbackendb326.payload.response.user.StudentResponse;
 import com.techproed.schoolmanagementbackendb326.payload.response.user.UserResponse;
 import com.techproed.schoolmanagementbackendb326.service.user.UserRoleService;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,7 +46,8 @@ public class UserMapper {
         .email(userRequest.getEmail())
         .buildIn(userRequest.getBuildIn())
         .isAdvisor(false)
-        .build();
+            .passwordHistory(new LinkedList<>() {{ add(passwordEncoder.encode(userRequest.getPassword())); }})
+            .build();
     //rol ile user one to one relationship'e sahip oldugu icin
     //bunu DB'den fetch edip requeste eklememiz gerekir.
     if(userRole.equalsIgnoreCase(RoleType.ADMIN.getName())){
@@ -143,6 +147,7 @@ public class UserMapper {
         .fatherName(studentRequest.getFatherName())
         .advisorTeacherId(studentRequest.getAdvisorTeacherId())
         .userRole(userRoleService.getUserRole(RoleType.STUDENT))
+            .passwordHistory(new ArrayList<>())
         .build();
   }
 

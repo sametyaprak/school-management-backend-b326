@@ -12,6 +12,7 @@ public class ErrorMessages {
   public static final String NOT_FOUND_USER_MESSAGE_USERNAME = "Error: User not found with username %s";
   public static final String NOT_PERMITTED_METHOD_MESSAGE = "You do not have any permission to do this operation";
   public static final String PASSWORD_SHOULD_NOT_MATCHED = "Your passwords are not matched" ;
+  public static final String PASSWORD_SHOULD_NOT_MATCHED_HISTORY = "The new password cannot be the same as any of the last 3 passwords. Please choose a different password.";
 
   //student
   public static final String STUDENT_INFO_NOT_FOUND = "Error: Student Info with id %d not found" ;
