@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface StudentInfoRepository extends JpaRepository<StudentInfo, Long> {
 
@@ -16,6 +18,8 @@ public interface StudentInfoRepository extends JpaRepository<StudentInfo, Long> 
 
   Page<StudentInfo> findAllByStudent_Id(Long id, Pageable pageable);
 
+	List<StudentInfo> findByStudent_Id(
+				Long studentİd);
   Page<StudentInfo> findAllByTeacher_Id(Long id, Pageable pageable);
 
 
