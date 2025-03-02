@@ -20,11 +20,15 @@ import com.techproed.schoolmanagementbackendb326.service.helper.PageableHelper;
 import com.techproed.schoolmanagementbackendb326.service.helper.StudentInfoHelper;
 import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -73,6 +77,16 @@ public class StudentInfoService {
         .returnBody(studentInfoMapper.mapStudentInfoToStudentInfoResponse(savedStudentInfo))
         .build();
   }
+
+	public List<StudentInfoResponse> findStudentInfoByStudentId(
+				Long studentId) {
+        User student = methodHelper.isUserExist(studentId);
+        methodHelper.checkUserRole(student, RoleType.STUDENT);
+        List<StudentInfo> studentInfoList = studentInfoRepository.findByStudent_Id(studentId);
+        return  studentInfoList.stream()
+                            .map(studentInfoMapper::mapStudentInfoToStudentInfoResponse)
+                            .collect(Collectors.toList());
+	}
 
 
   public StudentInfoResponse findById(Long studentInfoId) {
@@ -123,7 +137,7 @@ public class StudentInfoService {
   }
 
 
-  
+
   public Page<StudentInfoResponse> findByTeacherOrStudentByPage(HttpServletRequest servletRequest,
       int page, int size) {
     //preparing the pageable
@@ -150,10 +164,10 @@ public class StudentInfoService {
             : studentInfoRepository.findAllByStudent_Id(loggedInUser.getId(), pageable);*/
 
     return studentInfoPage.map(studentInfoMapper::mapStudentInfoToStudentInfoResponse);
-    
+
   }
 
-  
+
   public Page<StudentInfoResponse> findStudentInfoByPage(int page, int size, String sort,
       String type) {
     Pageable pageable = pageableHelper.getPageable(page, size, sort, type);
@@ -161,7 +175,7 @@ public class StudentInfoService {
     return studentInfos.map(studentInfoMapper::mapStudentInfoToStudentInfoResponse);
 
   }
-  
+
 
 
 }
