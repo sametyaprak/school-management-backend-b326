@@ -38,7 +38,7 @@ public class StudentInfoController {
   }
 
 
-  //TODO ESRA
+
   @PreAuthorize("hasAnyAuthority('Admin','Teacher')")
   @PutMapping("/update/{id}")
   public ResponseMessage<StudentInfoResponse>updateStudentInfo(
@@ -61,7 +61,7 @@ public class StudentInfoController {
     return studentInfoService.findStudentInfoByStudentId(studentId);
   }
 
-  //TODO yasar
+
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @GetMapping("/findStudentInfoByPage")
   public Page<StudentInfoResponse> findStundentInfoByPage(
@@ -72,14 +72,14 @@ public class StudentInfoController {
     return studentInfoService.findStudentInfoByPage(page, size, sort, type);
   }
 
-  //TODO NESLI
+
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @GetMapping("/findById/{studentInfoId}")
   public ResponseEntity<StudentInfoResponse> getStudentInfoById(@PathVariable Long studentInfoId) {
     return ResponseEntity.ok( studentInfoService.findById(studentInfoId));
   }
 
-  //TODO yasar
+
   @PreAuthorize("hasAnyAuthority('Teacher','Student')")
   @GetMapping("/findByTeacherOrStudentByPage")
   public Page<StudentInfoResponse>findByTeacherOrStudentByPage(

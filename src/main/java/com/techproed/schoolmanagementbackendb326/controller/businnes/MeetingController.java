@@ -70,7 +70,7 @@ public class MeetingController {
     return meetingService.getAllByPageTeacher(page,size,httpServletRequest);
   }
 
-  //TODO edip
+  //TODO SAMET
   @PreAuthorize("hasAnyAuthority('Teacher','Student')")
   @GetMapping("/getAll")
   public List<MeetingResponse> getAllMeetings(HttpServletRequest httpServletRequest){
@@ -78,7 +78,7 @@ public class MeetingController {
     return null;
   }
 
-  //TODO ismail
+  //TODO SAMET
   @PreAuthorize("hasAnyAuthority('Admin')")
   @GetMapping("/getAllByPage")
   public Page<MeetingResponse>getAllByPage(

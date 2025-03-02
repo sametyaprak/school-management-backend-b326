@@ -38,7 +38,7 @@ public class LessonProgramController {
   }
 
 
-  //TODO LEVEN
+  //TODO ERTUGRUL
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean','Teacher','Student')")
   @GetMapping("/getLessonProgram/{id}")
   public LessonProgramResponse getLessonProgramById(@PathVariable Long id) {

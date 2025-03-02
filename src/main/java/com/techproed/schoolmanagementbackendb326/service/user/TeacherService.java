@@ -99,11 +99,6 @@ public class TeacherService {
     User teacher = methodHelper.isUserExist(lessonProgram.getTeacherId());
     methodHelper.checkUserRole(teacher, RoleType.TEACHER);
     List<LessonProgram>lessonPrograms = lessonProgramService.getLessonProgramById(lessonProgram.getLessonProgramId());
-    // 1,2,3 -> 3,4,5
-    // 1,2,3,3,4,5
-    // TODO prevent duplication of lesson programs here
-    // KERIM -> move your solution to LessonProgramDuplicationHelper class and call it from here.
-
     List<LessonProgram> existingLessonPrograms = teacher.getLessonProgramList();
     List<LessonProgram> newLessonPrograms = lessonProgramDuplicationHelper.removeDuplicates(existingLessonPrograms,lessonPrograms);
 

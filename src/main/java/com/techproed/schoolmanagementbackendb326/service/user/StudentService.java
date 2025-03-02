@@ -12,6 +12,7 @@ import com.techproed.schoolmanagementbackendb326.payload.response.business.Respo
 import com.techproed.schoolmanagementbackendb326.payload.response.user.StudentResponse;
 import com.techproed.schoolmanagementbackendb326.repository.user.UserRepository;
 import com.techproed.schoolmanagementbackendb326.service.businnes.LessonProgramService;
+import com.techproed.schoolmanagementbackendb326.service.helper.LessonProgramDuplicationHelper;
 import com.techproed.schoolmanagementbackendb326.service.helper.MethodHelper;
 import com.techproed.schoolmanagementbackendb326.service.validator.TimeValidator;
 import com.techproed.schoolmanagementbackendb326.service.validator.UniquePropertyValidator;
@@ -32,6 +33,7 @@ public class StudentService {
   private final LessonProgramService lessonProgramService;
   private final TimeValidator timeValidator;
   private final UserRepository userRepository;
+  private final LessonProgramDuplicationHelper lessonProgramDuplicationHelper;
 
   public ResponseMessage<StudentResponse> save(StudentRequest studentRequest) {
     //does advisor teacher exist in DB
@@ -112,7 +114,7 @@ public class StudentService {
         lessonProgramService.getLessonProgramById(addLessonProgramForStudent.getLessonProgramId());
     //existing lesson programs of student
     List<LessonProgram>studentLessonProgram = loggedInUser.getLessonProgramList();
-    //TODO user LessonProgramDuplicationHelper here
+    lessonProgramDuplicationHelper.removeDuplicates(lessonProgramFromDto,studentLessonProgram);
     studentLessonProgram.addAll(lessonProgramFromDto);
     return null;
   }

@@ -41,8 +41,7 @@ public class StudentController {
     return ResponseEntity.ok(studentService.updateStudent(httpServletRequest, studentUpdateRequest));
   }
 
-  // TODO furkan fix this bug.
-  // when we update teacher by manager, fathername and mother name saved always NULL in db.
+
   @PreAuthorize("hasAnyAuthority('Admin')")
   @PutMapping("/updateByAdmin/{studentId}")
   public ResponseMessage<StudentResponse>updateStudentByManager(

@@ -63,11 +63,7 @@ public class TeacherController {
     return teacherService.deleteTeacherById(teacherId);
   }
 
-  //TODO BELKIS -> not all users
-  //getAllByTeacher
 
-  //TODO KERIM
-  //getAllTeacherByPage
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @GetMapping("/getAllTeacherByPage")
   public ResponseEntity<Page<UserResponse>> getAllTeacherByPage(
