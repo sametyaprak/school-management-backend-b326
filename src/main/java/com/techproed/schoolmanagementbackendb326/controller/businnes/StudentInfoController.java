@@ -1,6 +1,7 @@
 package com.techproed.schoolmanagementbackendb326.controller.businnes;
 
 import com.techproed.schoolmanagementbackendb326.payload.request.business.StudentInfoRequest;
+import com.techproed.schoolmanagementbackendb326.payload.request.business.StudentInfoUpdateRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.StudentInfoResponse;
 import com.techproed.schoolmanagementbackendb326.service.businnes.StudentInfoService;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,10 +42,9 @@ public class StudentInfoController {
   @PreAuthorize("hasAnyAuthority('Admin','Teacher')")
   @PutMapping("/update/{id}")
   public ResponseMessage<StudentInfoResponse>updateStudentInfo(
-      //@RequestBody @Valid StudentInfoUpdateRequest studentInfoUpdateRequest,
+      @RequestBody @Valid StudentInfoUpdateRequest studentInfoUpdateRequest,
       @PathVariable Long id){
-    //return studentInfoService.updateStudentInfo(studentInfoUpdateRequest,id);
-    return null;
+    return studentInfoService.updateStudentInfo(studentInfoUpdateRequest,id);
   }
 
   //TODO ertugrul
@@ -62,22 +63,20 @@ public class StudentInfoController {
 
   //TODO yasar
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
-  @GetMapping("/findStundentInfoByPage")
+  @GetMapping("/findStudentInfoByPage")
   public Page<StudentInfoResponse> findStundentInfoByPage(
       @RequestParam(value = "page", defaultValue = "0") int page,
       @RequestParam(value = "size", defaultValue = "10") int size,
       @RequestParam(value = "sort", defaultValue = "absentee") String sort,
       @RequestParam(value = "type", defaultValue = "desc") String type) {
-    //return studentInfoService.findStundentInfoByPage(page, size, sort, type);
-    return null;
+    return studentInfoService.findStudentInfoByPage(page, size, sort, type);
   }
 
   //TODO NESLI
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean')")
   @GetMapping("/findById/{studentInfoId}")
-  public StudentInfoResponse getStudentInfoById(@PathVariable Long studentInfoId) {
-    //return studentInfoService.findById(studentInfoId);
-    return null;
+  public ResponseEntity<StudentInfoResponse> getStudentInfoById(@PathVariable Long studentInfoId) {
+    return ResponseEntity.ok( studentInfoService.findById(studentInfoId));
   }
 
   //TODO yasar
@@ -87,8 +86,7 @@ public class StudentInfoController {
       HttpServletRequest servletRequest,
       @RequestParam(value = "page", defaultValue = "0") int page,
       @RequestParam(value = "size", defaultValue = "10") int size){
-    //return studentInfoService.findByTeacherOrStudentByPage(servletRequest,page,size);
-    return null;
+    return studentInfoService.findByTeacherOrStudentByPage(servletRequest,page,size);
   }
 
 

@@ -104,4 +104,18 @@ public class MeetingService {
   }
 
 
+  public String deleteById(
+              Long meetingId,
+              HttpServletRequest httpServletRequest) {
+    //validations
+    Meet existingMeeting = meetingHelper.isMeetingExistById(meetingId);
+    String username = (String) httpServletRequest.getAttribute("username");
+    User user = methodHelper.loadByUsername(username);
+    if (!user.getUserRole().getRoleName().equalsIgnoreCase("Admin")) {
+    meetingHelper.isMeetingMatchedWithTeacher(existingMeeting, httpServletRequest);
+    }
+    //delete
+    meetingRepository.deleteById(meetingId);
+    return SuccessMessages.MEET_DELETE;
+  }
 }
