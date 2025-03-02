@@ -137,7 +137,7 @@ public class StudentInfoService {
   }
 
 
-
+  
   public Page<StudentInfoResponse> findByTeacherOrStudentByPage(HttpServletRequest servletRequest,
       int page, int size) {
     //preparing the pageable
@@ -164,10 +164,10 @@ public class StudentInfoService {
             : studentInfoRepository.findAllByStudent_Id(loggedInUser.getId(), pageable);*/
 
     return studentInfoPage.map(studentInfoMapper::mapStudentInfoToStudentInfoResponse);
-
+    
   }
 
-
+  
   public Page<StudentInfoResponse> findStudentInfoByPage(int page, int size, String sort,
       String type) {
     Pageable pageable = pageableHelper.getPageable(page, size, sort, type);
@@ -175,7 +175,16 @@ public class StudentInfoService {
     return studentInfos.map(studentInfoMapper::mapStudentInfoToStudentInfoResponse);
 
   }
+  
 
+  public ResponseMessage deleteStudentInfoById(Long id) {
 
+    StudentInfo studentInfo = studentInfoHelper.isStudentInfoExistById(id);
 
+    studentInfoRepository.delete(studentInfo);
+
+    return ResponseMessage.builder()
+            .message(SuccessMessages.STUDENT_INFO_DELETE)
+            .build();
+  }
 }
