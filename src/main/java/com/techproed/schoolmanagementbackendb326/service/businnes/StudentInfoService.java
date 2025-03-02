@@ -21,12 +21,14 @@ import com.techproed.schoolmanagementbackendb326.service.helper.StudentInfoHelpe
 import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -75,6 +77,16 @@ public class StudentInfoService {
         .returnBody(studentInfoMapper.mapStudentInfoToStudentInfoResponse(savedStudentInfo))
         .build();
   }
+
+	public List<StudentInfoResponse> findStudentInfoByStudentId(
+				Long studentId) {
+        User student = methodHelper.isUserExist(studentId);
+        methodHelper.checkUserRole(student, RoleType.STUDENT);
+        List<StudentInfo> studentInfoList = studentInfoRepository.findByStudent_Id(studentId);
+        return  studentInfoList.stream()
+                            .map(studentInfoMapper::mapStudentInfoToStudentInfoResponse)
+                            .collect(Collectors.toList());
+	}
 
 
   public StudentInfoResponse findById(Long studentInfoId) {
@@ -163,7 +175,7 @@ public class StudentInfoService {
     return studentInfos.map(studentInfoMapper::mapStudentInfoToStudentInfoResponse);
 
   }
-
+  
 
   public ResponseMessage deleteStudentInfoById(Long id) {
 
