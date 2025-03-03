@@ -101,7 +101,15 @@ public class LessonProgramService {
   }
 
 
+  public LessonProgram isLessonProgramExist(Long id) {
+    return lessonProgramRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException(ErrorMessages.NOT_FOUND_LESSON_IN_LIST));
+  }
 
+    public LessonProgramResponse findById(Long id) {
 
+      LessonProgram lessonProgram = isLessonProgramExist(id);
+      return lessonProgramMapper.mapLessonProgramToLessonProgramResponse(lessonProgram);
 
+    }
 }

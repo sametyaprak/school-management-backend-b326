@@ -38,12 +38,12 @@ public class LessonProgramController {
   }
 
 
-  //TODO ERTUGRUL
+
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean','Teacher','Student')")
   @GetMapping("/getLessonProgram/{id}")
   public LessonProgramResponse getLessonProgramById(@PathVariable Long id) {
-    //return lessonProgramService.findById(id);
-    return null;
+    return lessonProgramService.findById(id);
+
   }
 
   @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean','Teacher','Student')")
